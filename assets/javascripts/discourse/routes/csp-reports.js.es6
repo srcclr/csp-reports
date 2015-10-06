@@ -1,5 +1,5 @@
 function fetchModel() {
-  return () => { return Discourse.ajax(Discourse.getURL("/csp-violation-tool/reports")); };
+  return () => { return Discourse.ajax(Discourse.getURL("/csp-reports/reports")); };
 }
 
 function wrapModel(json) {

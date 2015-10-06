@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>CSP Violation Reporter</title>
+  <%= stylesheet_link_tag    "csp_reports/application", media: "all" %>
+  <%= javascript_include_tag "csp_reports/application" %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+<%= yield %>
+
+</body>
+</html>

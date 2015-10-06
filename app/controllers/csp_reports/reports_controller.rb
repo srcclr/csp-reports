@@ -1,4 +1,4 @@
-module CspViolationTool
+module CspReports
   class ReportsController < ApplicationController
     skip_before_action :redirect_to_login_if_required, :check_xhr
     before_action :generate_report_uri_hash
