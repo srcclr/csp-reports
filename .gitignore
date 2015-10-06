@@ -1,3 +1,4 @@
+.bundle/
 *.gem
 *.rbc
 /.config
@@ -5,9 +6,13 @@
 /InstalledFiles
 /pkg/
 /spec/reports/
-/test/tmp/
-/test/version_tmp/
+spec/dummy/db/*.sqlite3
+spec/dummy/db/*.sqlite3-journal
+spec/dummy/log/*.log
+spec/dummy/tmp/
+spec/dummy/.sass-cache
 /tmp/
+log/*.log
 
 ## Specific to RubyMotion:
 .dat*
