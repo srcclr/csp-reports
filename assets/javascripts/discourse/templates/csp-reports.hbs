@@ -1,16 +1,15 @@
-<h3>CSP Violation Reporter</h3>
+<div class="container">
+  <h3 class="mb">CSP Violation Reporter</h3>
 
-<p>Your report-uri URL: {{model.reportUri}}</p>
+  <p>Your report-uri URL: {{model.reportUri}}</p>
 
-{{#if addMode}}
-  {{input type="text" value=buffered.name placeholder="Name"}}
-  {{input type="text" value=buffered.url placeholder="URL"}}
-  {{d-button action="save" label="csp_reports.save"}}
-  {{d-button action="cancel" label="csp_reports.cancel"}}
-{{else}}
-  {{d-button action="addDomain" icon="plus" label="csp_reports.add_domain"}}
-{{/if}}
+  {{#if addMode}}
+    {{partial "add-domain-form"}}
+  {{else}}
+    {{d-button action="addDomain" icon="plus" label="csp_reports.add_domain" class="btn--primary"}}
+  {{/if}}
 
-{{#each domain in model.domains}}
-  <p>{{domain.name}}({{domain.url}})</p>
-{{/each}}
+  {{#each domain in model.domains}}
+    <p>{{domain.name}}({{domain.url}})</p>
+  {{/each}}
+</div>
