@@ -1,4 +1,4 @@
 Rails.application.routes.draw do
 
-  mount CspViolationTool::Engine => "/csp_violation_tool"
+  mount CspReports::Engine => "/csp_reports"
 end

@@ -18,7 +18,11 @@ Gem::Specification.new do |s|
   s.test_files = Dir["spec/**/*"]
 
   s.add_dependency "rails", "~> 4.2.1"
+  s.add_dependency "active_model_serializers"
 
-  s.add_development_dependency "rspec"
+  s.add_development_dependency "pg"
+  s.add_development_dependency "rspec-rails"
+  s.add_development_dependency "factory_girl_rails"
+  s.add_development_dependency "database_cleaner"
   s.add_development_dependency "rubocop"
 end

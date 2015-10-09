@@ -1,0 +1,6 @@
+en:
+  js:
+    csp_reports:
+      add_domain: "Add new domain"
+      save: "Save"
+      cancel: "Cancel"

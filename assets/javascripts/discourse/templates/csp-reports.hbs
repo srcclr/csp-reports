@@ -1,3 +1,16 @@
 <h3>CSP Violation Reporter</h3>
 
 <p>Your report-uri URL: {{model.reportUri}}</p>
+
+{{#if addMode}}
+  {{input type="text" value=buffered.name placeholder="Name"}}
+  {{input type="text" value=buffered.url placeholder="URL"}}
+  {{d-button action="save" label="csp_reports.save"}}
+  {{d-button action="cancel" label="csp_reports.cancel"}}
+{{else}}
+  {{d-button action="addDomain" icon="plus" label="csp_reports.add_domain"}}
+{{/if}}
+
+{{#each domain in model.domains}}
+  <p>{{domain.name}}({{domain.url}})</p>
+{{/each}}
