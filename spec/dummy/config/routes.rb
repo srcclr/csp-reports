@@ -1,4 +1,4 @@
 Rails.application.routes.draw do
 
-  mount CspReports::Engine => "/csp_reports"
+  mount CspReports::Engine => "/csp-reports"
 end

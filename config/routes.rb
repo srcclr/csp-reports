@@ -3,5 +3,5 @@ CspReports::Engine.routes.draw do
 
   root to: "domains#index"
 
-  post "/report-uri/:report-uri-hash", to: "reports#create"
+  post "/report-uri/:report_uri_hash", to: "reports#create"
 end
