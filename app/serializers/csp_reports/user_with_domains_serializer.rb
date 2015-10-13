@@ -7,7 +7,7 @@ module CspReports
     private
 
     def report_uri
-      "https://openx.srcclr.io/report-uri/#{object.report_uri_hash}"
+      "#{options[:host]}/report-uri/#{object.report_uri_hash}"
     end
   end
 end
