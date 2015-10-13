@@ -1,5 +1,5 @@
 CspReports::Engine.routes.draw do
-  resources :reports, only: :index
+  resources :domains, only: %i(index create show)
 
-  root to: "reports#index"
+  root to: "domains#index"
 end

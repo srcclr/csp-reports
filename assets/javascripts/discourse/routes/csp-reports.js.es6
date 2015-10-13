@@ -1,17 +1,22 @@
+import CspReport from "../models/csp-report";
+
 function fetchModel() {
-  return () => { return Discourse.ajax(Discourse.getURL("/csp-reports/reports")); };
+  return () => { return Discourse.ajax(Discourse.getURL("/csp-reports/domains")); };
 }
 
 function wrapModel(json) {
-  return {
-    reportUri: json.report_uri
-  }
+  return CspReport.createFromJson(json);
 }
 
 export default Discourse.Route.extend({
   beforeModel() { return this.redirectIfLoginRequired(); },
 
   model() {
-    return PreloadStore.getAndRemove('reports', fetchModel).then(wrapModel);
+    return PreloadStore.getAndRemove('domains', fetchModel).then(wrapModel);
+  },
+
+  setupController(controller, model) {
+    controller.set("model", model);
+    this.controllerFor("application").set("showFooter", true);
   }
 })
