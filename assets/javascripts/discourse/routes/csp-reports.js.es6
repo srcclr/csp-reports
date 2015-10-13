@@ -13,5 +13,10 @@ export default Discourse.Route.extend({
 
   model() {
     return PreloadStore.getAndRemove('domains', fetchModel).then(wrapModel);
+  },
+
+  setupController(controller, model) {
+    controller.set("model", model);
+    this.controllerFor("application").set("showFooter", true);
   }
 })
