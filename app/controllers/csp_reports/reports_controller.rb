@@ -2,7 +2,7 @@ module CspReports
   class ReportsController < ::ApplicationController
     skip_before_action :check_xhr, :redirect_to_login_if_required, :verify_authenticity_token
 
-    before_action :verify_user_domain
+    before_action :find_user!, :verify_domain!
 
     def create
       @domain.reports.create(result: params["csp-report"])
@@ -12,9 +12,13 @@ module CspReports
 
     private
 
-    def verify_user_domain
+    def find_user!
       @user = User.find_by_report_uri_hash!(params["report_uri_hash"])
-      @domain = @user.domains.find_by_url!(params["csp-report"]["referrer"])
+    end
+
+    def verify_domain!
+      @domain = @user.domains.find_by_url(request.referrer)
+      head :unauthorized if @domain.blank?
     end
   end
 end

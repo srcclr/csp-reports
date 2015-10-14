@@ -2,10 +2,10 @@ require "rails_helper"
 
 module CspReports
   describe "POST /report-uri/:report-uri-hash" do
-    let!(:user) { FactoryGirl.create(:user, report_uri_hash: report_uri_hash) }
-    let!(:domain) { FactoryGirl.create(:domain, user: user, url: "https://www.google.com/") }
+    let!(:user) { FactoryGirl.create(:user, report_uri_hash: SecureRandom.uuid) }
+    let!(:domain) { FactoryGirl.create(:domain, user: user, url:  "https://www.google.com/") }
 
-    let(:report_uri_hash) { SecureRandom.uuid }
+    let(:referrer) { domain.url }
 
     let(:params) do
       {
@@ -20,17 +20,32 @@ module CspReports
     end
 
     before do
+      allow_any_instance_of(ActionDispatch::Request).to receive(:referrer).and_return(referrer)
+
       post "/csp-reports/report-uri/#{report_uri_hash}", params
     end
 
-    it "should respond with created" do
-      expect(response.code).to eq("201")
+    context "when report-uri hash is valid" do
+      let(:report_uri_hash) { user.report_uri_hash }
+
+      context "when referrer domain is valid" do
+        let(:created_report) { CspReports::Report.last }
+
+        specify { expect(response.code).to eq("201") }
+        specify { expect(created_report.result).to eq(params["csp-report"]) }
+      end
+
+      context "when referrer domain is invalid" do
+        let(:referrer) { 'some malicious referrer' }
+
+        specify { expect(response.code).to eq("401") }
+      end
     end
 
-    context "report" do
-      subject { CspReports::Report.last }
+    context "when report-uri-hash is invalid" do
+      let(:report_uri_hash) { SecureRandom.uuid }
 
-      its(:result) { is_expected.to eq(params["csp-report"]) }
+      specify { expect(response.code).to eq("404") }
     end
   end
 end
