@@ -1,18 +1,14 @@
 import Domain from "../models/domain";
 
-function fetchModel(params) {
-  return () => { return Discourse.ajax(Discourse.getURL("/csp-reports/domains/" + params.id)); };
-}
-
-function wrapModel(json) {
-  return Domain.createFromJson(json);
-}
-
 export default Discourse.Route.extend({
   beforeModel() { return this.redirectIfLoginRequired(); },
 
   model(params) {
-    return PreloadStore.getAndRemove('domain', fetchModel(params)).then(wrapModel);
+    return PreloadStore.getAndRemove('domain', () => {
+      return Discourse.ajax(Discourse.getURL("/csp-reports/domains/" + params.id));
+    }).then((data) => {
+      return Domain.createFromJson(data);
+    });
   },
 
   setupController(controller, model) {
