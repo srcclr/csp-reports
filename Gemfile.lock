@@ -169,6 +169,3 @@ DEPENDENCIES
   rspec-its
   rspec-rails
   rubocop
-
-BUNDLED WITH
-   1.10.6

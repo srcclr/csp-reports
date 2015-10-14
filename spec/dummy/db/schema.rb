@@ -115,6 +115,7 @@ ActiveRecord::Schema.define(version: 20151013100153) do
     t.string   "name_lower",                    limit: 50,                    null: false
     t.boolean  "auto_close_based_on_last_post",            default: false
     t.text     "topic_template"
+    t.boolean  "suppress_from_homepage",                   default: false
   end
 
   add_index "categories", ["email_in"], name: "index_categories_on_email_in", unique: true, using: :btree
@@ -193,8 +194,8 @@ ActiveRecord::Schema.define(version: 20151013100153) do
   end
 
   create_table "csp_reports_domains", force: :cascade do |t|
-    t.string   "name"
-    t.string   "url"
+    t.string   "name",       limit: 255
+    t.string   "url",        limit: 255
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -234,6 +235,25 @@ ActiveRecord::Schema.define(version: 20151013100153) do
   end
 
   add_index "directory_items", ["period_type"], name: "index_directory_items_on_period_type", using: :btree
+
+  create_table "discourse_reports_chapters", force: :cascade do |t|
+    t.string  "name",                      default: "", null: false
+    t.string  "slug",                      default: "", null: false
+    t.integer "discourse_reports_part_id"
+    t.integer "position",                  default: 0,  null: false
+  end
+
+  add_index "discourse_reports_chapters", ["discourse_reports_part_id"], name: "index_discourse_reports_chapters_on_discourse_reports_part_id", using: :btree
+  add_index "discourse_reports_chapters", ["position"], name: "index_discourse_reports_chapters_on_position", using: :btree
+
+  create_table "discourse_reports_parts", force: :cascade do |t|
+    t.string  "name",        default: "", null: false
+    t.string  "slug",        default: "", null: false
+    t.integer "position",    default: 0,  null: false
+    t.text    "description", default: "", null: false
+  end
+
+  add_index "discourse_reports_parts", ["position"], name: "index_discourse_reports_parts_on_position", using: :btree
 
   create_table "draft_sequences", force: :cascade do |t|
     t.integer "user_id",   null: false
@@ -285,6 +305,13 @@ ActiveRecord::Schema.define(version: 20151013100153) do
 
   add_index "email_tokens", ["token"], name: "index_email_tokens_on_token", unique: true, using: :btree
   add_index "email_tokens", ["user_id"], name: "index_email_tokens_on_user_id", using: :btree
+
+  create_table "embeddable_hosts", force: :cascade do |t|
+    t.string   "host",        limit: 255, null: false
+    t.integer  "category_id",             null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "facebook_user_infos", force: :cascade do |t|
     t.integer  "user_id",                    null: false
@@ -372,6 +399,7 @@ ActiveRecord::Schema.define(version: 20151013100153) do
     t.boolean  "automatic_membership_retroactive",   default: false
     t.boolean  "primary_group",                      default: false, null: false
     t.string   "title"
+    t.integer  "grant_trust_level"
   end
 
   add_index "groups", ["name"], name: "index_groups_on_name", unique: true, using: :btree
@@ -379,8 +407,8 @@ ActiveRecord::Schema.define(version: 20151013100153) do
   create_table "headlines_categories", force: :cascade do |t|
     t.string   "title",       default: "",                    null: false
     t.string   "topic",       default: "",                    null: false
-    t.datetime "created_at",  default: '2015-08-11 19:02:37', null: false
-    t.datetime "updated_at",  default: '2015-08-11 19:02:37', null: false
+    t.datetime "created_at",  default: '2015-07-06 16:47:19', null: false
+    t.datetime "updated_at",  default: '2015-07-06 16:47:19', null: false
     t.integer  "category_id"
     t.text     "description", default: ""
     t.integer  "parents",     default: [],                    null: false, array: true
@@ -397,15 +425,17 @@ ActiveRecord::Schema.define(version: 20151013100153) do
     t.string   "country_code",        default: "", null: false
     t.xml      "data_alexa"
     t.integer  "parent_category_ids", default: [], null: false, array: true
+    t.integer  "last_scan_id"
   end
 
+  add_index "headlines_domains", ["last_scan_id"], name: "index_headlines_domains_on_last_scan_id", using: :btree
   add_index "headlines_domains", ["name"], name: "index_headlines_domains_on_name", unique: true, using: :btree
   add_index "headlines_domains", ["parent_category_ids"], name: "index_headlines_domains_on_parent_category_ids", using: :gin
 
   create_table "headlines_domains_categories", force: :cascade do |t|
     t.integer  "category_id"
-    t.datetime "created_at",  default: '2015-08-11 19:02:37', null: false
-    t.datetime "updated_at",  default: '2015-08-11 19:02:37', null: false
+    t.datetime "created_at",  default: '2015-07-06 16:47:19', null: false
+    t.datetime "updated_at",  default: '2015-07-06 16:47:19', null: false
     t.string   "domain_name"
   end
 
@@ -419,6 +449,8 @@ ActiveRecord::Schema.define(version: 20151013100153) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "score",      default: 0
+    t.integer  "http_score", default: 0
+    t.integer  "csp_score",  default: 0
   end
 
   add_index "headlines_scans", ["domain_id"], name: "index_headlines_scans_on_domain_id", using: :btree
@@ -1087,15 +1119,20 @@ ActiveRecord::Schema.define(version: 20151013100153) do
     t.boolean  "pinned_globally",                            default: false,     null: false
     t.boolean  "auto_close_based_on_last_post",              default: false
     t.float    "auto_close_hours"
+    t.integer  "chapter_id"
+    t.integer  "position",                                   default: -1,        null: false
+    t.integer  "parent_topic_id"
     t.datetime "pinned_until"
   end
 
   add_index "topics", ["bumped_at"], name: "index_topics_on_bumped_at", order: {"bumped_at"=>:desc}, using: :btree
+  add_index "topics", ["chapter_id"], name: "index_topics_on_chapter_id", using: :btree
   add_index "topics", ["created_at", "visible"], name: "index_topics_on_created_at_and_visible", where: "((deleted_at IS NULL) AND ((archetype)::text <> 'private_message'::text))", using: :btree
   add_index "topics", ["deleted_at", "visible", "archetype", "category_id", "id"], name: "idx_topics_front_page", using: :btree
   add_index "topics", ["id", "deleted_at"], name: "index_topics_on_id_and_deleted_at", using: :btree
   add_index "topics", ["pinned_at"], name: "index_topics_on_pinned_at", where: "(pinned_at IS NOT NULL)", using: :btree
   add_index "topics", ["pinned_globally"], name: "index_topics_on_pinned_globally", where: "pinned_globally", using: :btree
+  add_index "topics", ["position"], name: "index_topics_on_position", using: :btree
   add_index "topics", ["user_id"], name: "idx_topics_user_id_deleted_at", where: "(deleted_at IS NULL)", using: :btree
 
   create_table "twitter_user_infos", force: :cascade do |t|
@@ -1340,7 +1377,7 @@ ActiveRecord::Schema.define(version: 20151013100153) do
     t.boolean  "disable_jump_reply",                        default: false, null: false
     t.boolean  "edit_history_public",                       default: false, null: false
     t.boolean  "trust_level_locked",                        default: false, null: false
-    t.string   "report_uri_hash"
+    t.string   "report_uri_hash",               limit: 255
   end
 
   add_index "users", ["auth_token"], name: "index_users_on_auth_token", using: :btree
@@ -1384,6 +1421,5 @@ ActiveRecord::Schema.define(version: 20151013100153) do
   add_index "warnings", ["topic_id"], name: "index_warnings_on_topic_id", unique: true, using: :btree
   add_index "warnings", ["user_id"], name: "index_warnings_on_user_id", using: :btree
 
-  add_foreign_key "csp_reports_domains", "users"
   add_foreign_key "csp_reports_reports", "csp_reports_domains"
 end
