@@ -1,6 +1,10 @@
 import Report from "./report";
 
-let Domain = Discourse.Model.extend({});
+let Domain = Discourse.Model.extend({
+  destroy() {
+    return Discourse.ajax("/csp-reports/domains/" + this.get("id"), { type: "DELETE" });
+  }
+});
 
 Domain.reopenClass({
   createFromJson(json) {
