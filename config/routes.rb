@@ -1,5 +1,7 @@
 CspReports::Engine.routes.draw do
-  resources :reports, only: :index
+  resources :domains, only: %i(index create show destroy)
 
-  root to: "reports#index"
+  root to: "domains#index"
+
+  post "/report-uri/:report_uri_hash", to: "reports#create"
 end

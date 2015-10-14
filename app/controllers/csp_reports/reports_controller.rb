@@ -1,31 +1,28 @@
 module CspReports
-  class ReportsController < ApplicationController
-    skip_before_action :redirect_to_login_if_required, :check_xhr
-    before_action :generate_report_uri_hash
-    respond_to :html, :json
+  class ReportsController < ::ApplicationController
+    skip_before_action :check_xhr, :redirect_to_login_if_required, :verify_authenticity_token
 
-    def index
-      respond_to do |format|
-        format.json { render json: data }
-        format.html do
-          store_preloaded("reports", MultiJson.dump(data))
-          render "default/empty"
-        end
-      end
+    before_action :find_user!, :verify_domain!
+
+    rescue_from ActiveRecord::RecordNotFound do
+      head :not_found
+    end
+
+    def create
+      @domain.reports.create(result: params["csp-report"])
+
+      head :created
     end
 
     private
 
-    def generate_report_uri_hash
-      current_user.generate_report_uri_hash unless current_user.report_uri_hash
+    def find_user!
+      @user = User.find_by_report_uri_hash!(params["report_uri_hash"])
     end
 
-    def data
-      { report_uri: report_uri }
-    end
-
-    def report_uri
-      "#{request.base_url}/report-uri/#{current_user.report_uri_hash}"
+    def verify_domain!
+      @domain = @user.domains.find_by_url(request.referrer)
+      head :unauthorized if @domain.blank?
     end
   end
 end

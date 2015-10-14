@@ -1,13 +1,13 @@
-import CspReport from "../models/csp-report";
+import Domain from "../models/domain";
 
 export default Discourse.Route.extend({
   beforeModel() { return this.redirectIfLoginRequired(); },
 
-  model() {
-    return PreloadStore.getAndRemove('domains', () => {
-      return Discourse.ajax(Discourse.getURL("/csp-reports/domains"));
+  model(params) {
+    return PreloadStore.getAndRemove('domain', () => {
+      return Discourse.ajax(Discourse.getURL("/csp-reports/domains/" + params.id));
     }).then((data) => {
-      return CspReport.createFromJson(data);
+      return Domain.createFromJson(data);
     });
   },
 
