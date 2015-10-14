@@ -4,6 +4,10 @@ module CspReports
 
     before_action :find_user!, :verify_domain!
 
+    rescue_from ActiveRecord::RecordNotFound do
+      head :not_found
+    end
+
     def create
       @domain.reports.create(result: params["csp-report"])
 

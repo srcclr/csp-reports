@@ -1,5 +1,4 @@
 # Configure Rails Environment
-ENV["RAILS_ENV"] = "test"
 require "spec_helper"
 require "rspec/rails"
 
