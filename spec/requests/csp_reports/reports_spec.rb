@@ -36,7 +36,7 @@ module CspReports
       end
 
       context "when referrer domain is invalid" do
-        let(:referrer) { 'some malicious referrer' }
+        let(:referrer) { "some malicious referrer" }
 
         specify { expect(response.code).to eq("401") }
       end

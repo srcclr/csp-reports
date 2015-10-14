@@ -1,6 +1,8 @@
 module CspReports
   class DomainsController < ApplicationController
     skip_before_action :redirect_to_login_if_required, :check_xhr
+
+    before_action :ensure_logged_in
     before_action :generate_report_uri_hash
 
     respond_to :html, :json
