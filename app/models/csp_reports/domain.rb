@@ -1,5 +1,7 @@
 module CspReports
   class Domain < ActiveRecord::Base
-    has_many :reports
+    belongs_to :user
+
+    has_many :reports, foreign_key: "csp_reports_domain_id"
   end
 end
