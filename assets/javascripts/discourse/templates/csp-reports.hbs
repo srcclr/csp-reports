@@ -14,9 +14,10 @@
     {{/if}}
   </div>
 
-  {{#each domain in model.domains}}
+  {{#each domain in model.domains itemController="domain"}}
     <p>
-      {{#link-to 'domain' domain.id}}{{domain.name}} ({{domain.url}}){{/link-to}}
+      {{#link-to 'domain' domain.model.id}}{{domain.model.name}} ({{domain.model.url}}){{/link-to}}
+      {{d-button action="destroy" icon="trash-o"}}
     </p>
   {{/each}}
 </div>

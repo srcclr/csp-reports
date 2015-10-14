@@ -32,14 +32,24 @@ module CspReports
       end
     end
 
+    def destroy
+      status = domain && domain.destroy ? :ok : :not_found
+
+      head status
+    end
+
     private
+
+    def domain
+      @domain ||= current_user.domains.find_by(id: params[:id])
+    end
 
     def domain_params
       params.require(:domain).permit(:name, :url)
     end
 
     def domain_as_json
-      serialize_data(Domain.find(params[:id]), DomainWithReportsSerializer, root: false)
+      serialize_data(domain, DomainWithReportsSerializer, root: false)
     end
 
     def user_with_domains
