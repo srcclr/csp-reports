@@ -2,7 +2,7 @@
 
 ## Description
 
-[Content Security Policy (CSP)](https://en.wikipedia.org/wiki/Content_Security_Policy) is a standard HTTP header that allows web developers to declare allowed sources of resources like images, fonts, styles etc. that can be loaded on a web page. A CSP heder can provide security against Cross-Site Scripting (XSS) and other related attacks.
+[Content Security Policy (CSP)](https://en.wikipedia.org/wiki/Content_Security_Policy) is a standard HTTP header that allows web developers to declare allowed sources of resources like images, fonts, styles etc. that can be loaded on a web page. A CSP header can provide security against Cross-Site Scripting (XSS) and other related attacks.
 
 Adding a new CSP header to an existing site can be challenging. The site may already use scripts and resources from a variety of domains and it can be hard to track them. Tracking them will allow the developer to add exceptions to the CSP policy or figure out alternatives for the violating resources. The aim of this project is to provide a simple and easy way for website developers to figure out a sane CSP policy for their site.
 
