@@ -43,7 +43,15 @@ module CspReports
     private
 
     def domain
-      @domain ||= current_user.domains.find_by(id: params[:id])
+      @domain ||= current_user.domains
+      @domain = @domain.includes(:reports).where(csp_reports_reports: { created_at: filter_range }) if filter_range
+      @domain = @domain.find_by(id: params[:id])
+
+      @domain
+    end
+
+    def filter_range
+      Range.new(params[:from], params[:to]) if [params[:from], params[:to]].all?
     end
 
     def domain_params

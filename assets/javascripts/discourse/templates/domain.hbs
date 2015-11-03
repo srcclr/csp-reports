@@ -4,27 +4,39 @@
 <p>URL: {{model.url}}</p>
 
 <h3>CSP Violations results</h3>
-{{#if model.reports}}
-  <table>
-    <th>Date</th>
-    <th>Document URI</th>
-    <th>Referrer</th>
-    <th>Violated directive</th>
-    <th>Original policy</th>
-    <th>Blocked URI</th>
-    <th>Raw</th>
-    {{#each report in model.reports}}
-      <tr>
-        <td>{{formatted-date report.createdAt "DD/MM/YYYY hh:mm A"}}</td>
-        <td>{{report.documentUri}}</td>
-        <td>{{report.referrer}}</td>
-        <td>{{report.violatedDirective}}</td>
-        <td>{{report.originalPolicy}}</td>
-        <td>{{report.blockedUri}}</td>
-        <td>{{d-button label="csp_reports.show"}}</td>
-      </tr>
-    {{/each}}
-  </table>
-{{else}}
-  <p>No results</p>
-{{/if}}
+
+<div class="filters">
+  {{d-button action="filter_all" label="domain.filter.all"}}
+  {{d-button action="filter_today" label="domain.filter.today"}}
+  {{d-button action="filter_week" label="domain.filter.week"}}
+  {{d-button action="filter_month" label="domain.filter.month"}}
+  {{d-button action="filter_quarter" label="domain.filter.quarter"}}
+  {{d-button action="filter_year" label="domain.filter.year"}}
+</div>
+
+{{#conditional-loading-spinner condition=loading}}
+  {{#if model.reports}}
+    <table>
+      <th>Date</th>
+      <th>Document URI</th>
+      <th>Referrer</th>
+      <th>Violated directive</th>
+      <th>Original policy</th>
+      <th>Blocked URI</th>
+      <th>Raw</th>
+      {{#each report in model.reports}}
+        <tr>
+          <td>{{formatted-date report.createdAt "DD/MM/YYYY hh:mm A"}}</td>
+          <td>{{report.documentUri}}</td>
+          <td>{{report.referrer}}</td>
+          <td>{{report.violatedDirective}}</td>
+          <td>{{report.originalPolicy}}</td>
+          <td>{{report.blockedUri}}</td>
+          <td>{{d-button label="csp_reports.show"}}</td>
+        </tr>
+      {{/each}}
+    </table>
+  {{else}}
+    <p>No results</p>
+  {{/if}}
+{{/conditional-loading-spinner}}
