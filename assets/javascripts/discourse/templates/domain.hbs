@@ -6,12 +6,12 @@
 <h3>CSP Violations results</h3>
 
 <div class="filters">
-  {{d-button action="filter_all" label="domain.filter.all" class="active"}}
-  {{d-button action="filter_today" label="domain.filter.today"}}
-  {{d-button action="filter_week" label="domain.filter.week"}}
-  {{d-button action="filter_month" label="domain.filter.month"}}
-  {{d-button action="filter_quarter" label="domain.filter.quarter"}}
-  {{d-button action="filter_year" label="domain.filter.year"}}
+  <button {{action "filter" "all"}} {{bind-attr class="isAll:active"}}>{{i18n "domain.filter.all"}}</button>
+  <button {{action "filter" "day"}} {{bind-attr class="isToday:active"}}>{{i18n "domain.filter.today"}}</button>
+  <button {{action "filter" "week"}} {{bind-attr class="isWeek:active"}}>{{i18n "domain.filter.week"}}</button>
+  <button {{action "filter" "month"}} {{bind-attr class="isMonth:active"}}>{{i18n "domain.filter.month"}}</button>
+  <button {{action "filter" "quarter"}} {{bind-attr class="isQuarter:active"}}>{{i18n "domain.filter.quarter"}}</button>
+  <button {{action "filter" "year"}} {{bind-attr class="isYear:active"}}>{{i18n "domain.filter.year"}}</button>
 </div>
 
 {{#conditional-loading-spinner condition=loading}}

@@ -8,6 +8,13 @@ export default Ember.Controller.extend({
   loading: false,
   filterQuery: "",
 
+  isAll: Em.computed.equal("filter", "all"),
+  isToday: Em.computed.equal("filter", "day"),
+  isWeek: Em.computed.equal("filter", "week"),
+  isMonth: Em.computed.equal("filter", "month"),
+  isQuarter: Em.computed.equal("filter", "quarter"),
+  isYear: Em.computed.equal("filter", "year"),
+
   init() {
     this.get("filterQuery");
   },
@@ -35,28 +42,8 @@ export default Ember.Controller.extend({
   }),
 
   actions: {
-    filter_all() {
-      this.set("filter", "all");
-    },
-
-    filter_today() {
-      this.set("filter", "day");
-    },
-
-    filter_week() {
-      this.set("filter", "week");
-    },
-
-    filter_month() {
-      this.set("filter", "month");
-    },
-
-    filter_quarter() {
-      this.set("filter", "quarter");
-    },
-
-    filter_year() {
-      this.set("filter", "year");
+    filter(range) {
+      this.set("filter", range);
     },
 
     destroy() {
