@@ -5,3 +5,11 @@ en:
       show: "Show"
       save: "Save"
       cancel: "Cancel"
+    domain:
+      filter:
+        all: "All"
+        today: "Today"
+        week: "Week"
+        month: "Month"
+        quarter: "Quarter"
+        year: "Year"

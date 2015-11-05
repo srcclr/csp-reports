@@ -4,27 +4,39 @@
 <p>URL: {{model.url}}</p>
 
 <h3>CSP Violations results</h3>
-{{#if model.reports}}
-  <table>
-    <th>Date</th>
-    <th>Document URI</th>
-    <th>Referrer</th>
-    <th>Violated directive</th>
-    <th>Original policy</th>
-    <th>Blocked URI</th>
-    <th>Raw</th>
-    {{#each report in model.reports}}
-      <tr>
-        <td>{{formatted-date report.createdAt "DD/MM/YYYY hh:mm A"}}</td>
-        <td>{{report.documentUri}}</td>
-        <td>{{report.referrer}}</td>
-        <td>{{report.violatedDirective}}</td>
-        <td>{{report.originalPolicy}}</td>
-        <td>{{report.blockedUri}}</td>
-        <td>{{d-button label="csp_reports.show"}}</td>
-      </tr>
-    {{/each}}
-  </table>
-{{else}}
-  <p>No results</p>
-{{/if}}
+
+<div class="filters">
+  <button {{action "filter" "all"}} {{bind-attr class="isAll:active"}}>{{i18n "domain.filter.all"}}</button>
+  <button {{action "filter" "day"}} {{bind-attr class="isToday:active"}}>{{i18n "domain.filter.today"}}</button>
+  <button {{action "filter" "week"}} {{bind-attr class="isWeek:active"}}>{{i18n "domain.filter.week"}}</button>
+  <button {{action "filter" "month"}} {{bind-attr class="isMonth:active"}}>{{i18n "domain.filter.month"}}</button>
+  <button {{action "filter" "quarter"}} {{bind-attr class="isQuarter:active"}}>{{i18n "domain.filter.quarter"}}</button>
+  <button {{action "filter" "year"}} {{bind-attr class="isYear:active"}}>{{i18n "domain.filter.year"}}</button>
+</div>
+
+{{#conditional-loading-spinner condition=loading}}
+  {{#if model.reports}}
+    <table>
+      <th>Date</th>
+      <th>Document URI</th>
+      <th>Referrer</th>
+      <th>Violated directive</th>
+      <th>Original policy</th>
+      <th>Blocked URI</th>
+      <th>Raw</th>
+      {{#each report in model.reports}}
+        <tr>
+          <td>{{formatted-date report.createdAt "DD/MM/YYYY hh:mm A"}}</td>
+          <td>{{report.documentUri}}</td>
+          <td>{{report.referrer}}</td>
+          <td>{{report.violatedDirective}}</td>
+          <td>{{report.originalPolicy}}</td>
+          <td>{{report.blockedUri}}</td>
+          <td>{{d-button label="csp_reports.show"}}</td>
+        </tr>
+      {{/each}}
+    </table>
+  {{else}}
+    <p>No results</p>
+  {{/if}}
+{{/conditional-loading-spinner}}
