@@ -43,11 +43,11 @@ module CspReports
     private
 
     def domain
-      @domain ||= current_user.domains
-      @domain = @domain.includes(:reports).where(csp_reports_reports: { created_at: filter_range }) if filter_range
-      @domain = @domain.find_by(id: params[:id])
+      @domain ||= current_user.domains.find_by(id: params[:id])
+    end
 
-      @domain
+    def reports
+      CspReports::Report.where(csp_reports_domain_id: domain.id, created_at: filter_range) if filter_range
     end
 
     def filter_range
@@ -59,7 +59,12 @@ module CspReports
     end
 
     def domain_as_json
-      serialize_data(domain, DomainWithReportsSerializer, root: false)
+      serialize_data(
+        domain,
+        DomainWithReportsSerializer,
+        root: false,
+        reports: reports
+      )
     end
 
     def user_with_domains
