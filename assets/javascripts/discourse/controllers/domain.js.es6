@@ -5,6 +5,7 @@ const dateFormat = "YYYY-MM-DDTHH:mm:ss";
 
 export default Ember.Controller.extend({
   filter: "all",
+  viewType: "table",
   loading: false,
   filterQuery: "",
 
@@ -14,6 +15,9 @@ export default Ember.Controller.extend({
   isMonth: Em.computed.equal("filter", "month"),
   isQuarter: Em.computed.equal("filter", "quarter"),
   isYear: Em.computed.equal("filter", "year"),
+
+  isTableView: Em.computed.equal("viewType", "table"),
+  isGraphView: Em.computed.equal("viewType", "graph"),
 
   init() {
     this.get("filterQuery");
@@ -41,9 +45,21 @@ export default Ember.Controller.extend({
     return "?from=" + from + "&to=" + to;
   }),
 
+  groupedReports: Em.computed("model.reports", function() {
+    let reports = this.get("model.reports");
+
+    return _.pairs(_.countBy(reports, (report) => {
+      return report.createdAt.split("T")[0];
+    }));
+  }),
+
   actions: {
     filter(range) {
       this.set("filter", range);
+    },
+
+    changeType(type) {
+      this.set("viewType", type);
     },
 
     destroy() {

@@ -14,28 +14,37 @@
   <button {{action "filter" "year"}} {{bind-attr class="isYear:active"}}>{{i18n "domain.filter.year"}}</button>
 </div>
 
+<div class="report-type">
+  <button {{action "changeType" "table"}} {{bind-attr class="isTableView:active"}}>Table</button>
+  <button {{action "changeType" "graph"}} {{bind-attr class="isGraphView:active"}}>Graph</button>
+</div>
+
 {{#conditional-loading-spinner condition=loading}}
   {{#if model.reports}}
-    <table>
-      <th>Date</th>
-      <th>Document URI</th>
-      <th>Referrer</th>
-      <th>Violated directive</th>
-      <th>Original policy</th>
-      <th>Blocked URI</th>
-      <th>Raw</th>
-      {{#each report in model.reports}}
-        <tr>
-          <td>{{formatted-date report.createdAt "DD/MM/YYYY hh:mm A"}}</td>
-          <td>{{report.documentUri}}</td>
-          <td>{{report.referrer}}</td>
-          <td>{{report.violatedDirective}}</td>
-          <td>{{report.originalPolicy}}</td>
-          <td>{{report.blockedUri}}</td>
-          <td>{{d-button label="csp_reports.show"}}</td>
-        </tr>
-      {{/each}}
-    </table>
+    {{#if isTableView}}
+      <table>
+        <th>Date</th>
+        <th>Document URI</th>
+        <th>Referrer</th>
+        <th>Violated directive</th>
+        <th>Original policy</th>
+        <th>Blocked URI</th>
+        <th>Raw</th>
+        {{#each report in model.reports}}
+          <tr>
+            <td>{{formatted-date report.createdAt "DD/MM/YYYY hh:mm A"}}</td>
+            <td>{{report.documentUri}}</td>
+            <td>{{report.referrer}}</td>
+            <td>{{report.violatedDirective}}</td>
+            <td>{{report.originalPolicy}}</td>
+            <td>{{report.blockedUri}}</td>
+            <td>{{d-button label="csp_reports.show"}}</td>
+          </tr>
+        {{/each}}
+      </table>
+    {{else}}
+      {{reports-graph model=groupedReports}}
+    {{/if}}
   {{else}}
     <p>No results</p>
   {{/if}}
