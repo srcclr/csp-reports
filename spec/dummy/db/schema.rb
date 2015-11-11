@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151013100153) do
+ActiveRecord::Schema.define(version: 20151111102249) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -194,8 +194,8 @@ ActiveRecord::Schema.define(version: 20151013100153) do
   end
 
   create_table "csp_reports_domains", force: :cascade do |t|
-    t.string   "name",       limit: 255
-    t.string   "url",        limit: 255
+    t.string   "name"
+    t.string   "url"
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -211,6 +211,14 @@ ActiveRecord::Schema.define(version: 20151013100153) do
   end
 
   add_index "csp_reports_reports", ["csp_reports_domain_id"], name: "index_csp_reports_reports_on_csp_reports_domain_id", using: :btree
+
+  create_table "csp_reports_viewers", force: :cascade do |t|
+    t.integer "csp_reports_domains_id"
+    t.integer "user_id"
+  end
+
+  add_index "csp_reports_viewers", ["csp_reports_domains_id"], name: "index_csp_reports_viewers_on_csp_reports_domains_id", using: :btree
+  add_index "csp_reports_viewers", ["user_id"], name: "index_csp_reports_viewers_on_user_id", using: :btree
 
   create_table "digest_unsubscribe_keys", primary_key: "key", force: :cascade do |t|
     t.integer  "user_id",    null: false
@@ -307,8 +315,8 @@ ActiveRecord::Schema.define(version: 20151013100153) do
   add_index "email_tokens", ["user_id"], name: "index_email_tokens_on_user_id", using: :btree
 
   create_table "embeddable_hosts", force: :cascade do |t|
-    t.string   "host",        limit: 255, null: false
-    t.integer  "category_id",             null: false
+    t.string   "host",        null: false
+    t.integer  "category_id", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -386,6 +394,7 @@ ActiveRecord::Schema.define(version: 20151013100153) do
   end
 
   add_index "group_users", ["group_id", "user_id"], name: "index_group_users_on_group_id_and_user_id", unique: true, using: :btree
+  add_index "group_users", ["user_id", "group_id"], name: "index_group_users_on_user_id_and_group_id", unique: true, using: :btree
 
   create_table "groups", force: :cascade do |t|
     t.string   "name",                                               null: false
@@ -407,8 +416,8 @@ ActiveRecord::Schema.define(version: 20151013100153) do
   create_table "headlines_categories", force: :cascade do |t|
     t.string   "title",       default: "",                    null: false
     t.string   "topic",       default: "",                    null: false
-    t.datetime "created_at",  default: '2015-07-06 16:47:19', null: false
-    t.datetime "updated_at",  default: '2015-07-06 16:47:19', null: false
+    t.datetime "created_at",  default: '2015-08-26 14:06:29', null: false
+    t.datetime "updated_at",  default: '2015-08-26 14:06:29', null: false
     t.integer  "category_id"
     t.text     "description", default: ""
     t.integer  "parents",     default: [],                    null: false, array: true
@@ -434,8 +443,8 @@ ActiveRecord::Schema.define(version: 20151013100153) do
 
   create_table "headlines_domains_categories", force: :cascade do |t|
     t.integer  "category_id"
-    t.datetime "created_at",  default: '2015-07-06 16:47:19', null: false
-    t.datetime "updated_at",  default: '2015-07-06 16:47:19', null: false
+    t.datetime "created_at",  default: '2015-08-26 14:06:29', null: false
+    t.datetime "updated_at",  default: '2015-08-26 14:06:29', null: false
     t.string   "domain_name"
   end
 
@@ -1123,6 +1132,7 @@ ActiveRecord::Schema.define(version: 20151013100153) do
     t.integer  "position",                                   default: -1,        null: false
     t.integer  "parent_topic_id"
     t.datetime "pinned_until"
+    t.string   "fancy_title",                   limit: 400
   end
 
   add_index "topics", ["bumped_at"], name: "index_topics_on_bumped_at", order: {"bumped_at"=>:desc}, using: :btree
@@ -1262,10 +1272,12 @@ ActiveRecord::Schema.define(version: 20151013100153) do
     t.boolean  "admin_only",     default: false
     t.integer  "post_id"
     t.string   "custom_type"
+    t.integer  "category_id"
   end
 
   add_index "user_histories", ["acting_user_id", "action", "id"], name: "index_user_histories_on_acting_user_id_and_action_and_id", using: :btree
   add_index "user_histories", ["action", "id"], name: "index_user_histories_on_action_and_id", using: :btree
+  add_index "user_histories", ["category_id"], name: "index_user_histories_on_category_id", using: :btree
   add_index "user_histories", ["subject", "id"], name: "index_user_histories_on_subject_and_id", using: :btree
   add_index "user_histories", ["target_user_id", "id"], name: "index_user_histories_on_target_user_id_and_id", using: :btree
 
@@ -1280,6 +1292,18 @@ ActiveRecord::Schema.define(version: 20151013100153) do
 
   add_index "user_open_ids", ["url"], name: "index_user_open_ids_on_url", using: :btree
 
+  create_table "user_profile_views", force: :cascade do |t|
+    t.integer  "user_profile_id", null: false
+    t.datetime "viewed_at",       null: false
+    t.inet     "ip_address",      null: false
+    t.integer  "user_id"
+  end
+
+  add_index "user_profile_views", ["user_id"], name: "index_user_profile_views_on_user_id", using: :btree
+  add_index "user_profile_views", ["user_profile_id"], name: "index_user_profile_views_on_user_profile_id", using: :btree
+  add_index "user_profile_views", ["viewed_at", "ip_address", "user_profile_id"], name: "unique_profile_view_ip", unique: true, where: "(user_id IS NULL)", using: :btree
+  add_index "user_profile_views", ["viewed_at", "user_id", "user_profile_id"], name: "unique_profile_view_user", unique: true, where: "(user_id IS NOT NULL)", using: :btree
+
   create_table "user_profiles", primary_key: "user_id", force: :cascade do |t|
     t.string  "location"
     t.string  "website"
@@ -1291,6 +1315,7 @@ ActiveRecord::Schema.define(version: 20151013100153) do
     t.boolean "badge_granted_title",              default: false
     t.string  "card_background",      limit: 255
     t.integer "card_image_badge_id"
+    t.integer "views",                            default: 0,     null: false
   end
 
   add_index "user_profiles", ["bio_cooked_version"], name: "index_user_profiles_on_bio_cooked_version", using: :btree
@@ -1377,7 +1402,7 @@ ActiveRecord::Schema.define(version: 20151013100153) do
     t.boolean  "disable_jump_reply",                        default: false, null: false
     t.boolean  "edit_history_public",                       default: false, null: false
     t.boolean  "trust_level_locked",                        default: false, null: false
-    t.string   "report_uri_hash",               limit: 255
+    t.string   "report_uri_hash"
   end
 
   add_index "users", ["auth_token"], name: "index_users_on_auth_token", using: :btree
@@ -1421,5 +1446,6 @@ ActiveRecord::Schema.define(version: 20151013100153) do
   add_index "warnings", ["topic_id"], name: "index_warnings_on_topic_id", unique: true, using: :btree
   add_index "warnings", ["user_id"], name: "index_warnings_on_user_id", using: :btree
 
+  add_foreign_key "csp_reports_domains", "users"
   add_foreign_key "csp_reports_reports", "csp_reports_domains"
 end
