@@ -2,11 +2,11 @@
   <i class="fa fa-arrow-left"></i>
   <span>Back</span>
 {{/link-to}}
-<h3 class="site-name">{{model.name}} <a href={{model.url}} class="nav-back">({{model.url}})</a></h3>
+<h3 class="site-name">{{model.name}} <span class="nav-back">({{model.url}})</span></h3>
 
 <h4 class="table-title">CSP Violations results</h4>
 
-<div class="filters table-filters">
+<div class="table-filters">
   <button {{action "filter" "all"}} {{bind-attr class=":btn isAll:btn--primary"}}>{{i18n "domain.filter.all"}}</button>
   <button {{action "filter" "day"}} {{bind-attr class=":btn isToday:btn--primary"}}>{{i18n "domain.filter.today"}}</button>
   <button {{action "filter" "week"}} {{bind-attr class=":btn isWeek:btn--primary"}}>{{i18n "domain.filter.week"}}</button>
