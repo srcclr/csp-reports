@@ -1,3 +1,15 @@
+.domain-form {
+  .fa {
+    vertical-align: baseline;
+  }
+
+  input[type="text"].control--text {
+    padding: 0.6em 1.2em;
+    border: 1px solid #dadcdf;
+    height: 2.5em;
+  }
+}
+
 .site-name {
   margin: 30px 10px 50px 0;
   line-height: normal;
@@ -34,21 +46,15 @@
     background: #e2e3e4;
   }
 
-  th, tr:nth-child(2n+1) {
+  tr:nth-child(2n+1) {
     background: #b2b2b2;
   }
 
   th {
     text-align: left;
   }
+}
 
-  td {
-    button {
-      background: #D4D4D4;
-
-      &:hover {
-        background: #C7C7C7;
-      }
-    }
-  }
+.uri-col {
+  max-width: 230px;
 }
