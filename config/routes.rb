@@ -1,5 +1,7 @@
 CspReports::Engine.routes.draw do
-  resources :domains, only: %i(index create show destroy)
+  resources :domains, only: %i(index create show destroy) do
+    resources :viewers, only: %i(index create destroy)
+  end
 
   root to: "domains#index"
 end
