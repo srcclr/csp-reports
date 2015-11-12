@@ -26,6 +26,7 @@ module CspReports
     private
 
     def viewers
+      binding.pry
       serialize_data(
         domain.viewers,
         ViewerSerializer,

@@ -4,7 +4,7 @@ Viewer.reopenClass({
   createFromJson(json) {
     return this.create({
       id: json.id,
-      name: json.name
+      username: json.username
     })
   }
 });

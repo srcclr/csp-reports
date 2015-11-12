@@ -1,0 +1,7 @@
+{{#if model.viewers}}
+  <ul>
+  {{#each viewer in model.viewers}}
+    <li>{{viewer.username}}</li>
+  {{/each}}
+  </ul>
+{{/if}}

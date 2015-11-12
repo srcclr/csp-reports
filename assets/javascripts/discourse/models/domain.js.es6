@@ -1,4 +1,5 @@
 import Report from "./report";
+import Viewer from "./viewer";
 
 let Domain = Discourse.Model.extend({
   destroy() {
@@ -12,7 +13,8 @@ Domain.reopenClass({
       id: json.id,
       name: json.name,
       url: json.url,
-      reports: _.map(json.reports, (report) => { return Report.createFromJson(report); })
+      reports: _.map(json.reports, (report) => { return Report.createFromJson(report); }),
+      viewers: _.map(json.viewers, (viewer) => { return Viewer.createFromJson(viewer); })
     });
   }
 });

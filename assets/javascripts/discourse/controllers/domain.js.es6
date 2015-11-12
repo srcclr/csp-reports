@@ -18,6 +18,7 @@ export default Ember.Controller.extend({
 
   isTableView: Em.computed.equal("viewType", "table"),
   isGraphView: Em.computed.equal("viewType", "graph"),
+  isViewersView: Em.computed.equal("viewType", "viewers"),
 
   init() {
     this.get("filterQuery");
