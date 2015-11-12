@@ -3,8 +3,6 @@
   <span>Back</span>
 {{/link-to}}
 <h3 class="site-name">{{model.name}} <span class="nav-back">({{model.url}})</span></h3>
-  <h3 class="site-name">{{model.name}} <span class="nav-back">({{model.url}})</span></h3>
-
 <h4 class="table-title">CSP Violations results</h4>
 
 <div class="table-filters">
@@ -14,7 +12,7 @@
   <button {{action "filter" "month"}} {{bind-attr class=":btn isMonth:btn--primary"}}>{{i18n "domain.filter.month"}}</button>
   <button {{action "filter" "quarter"}} {{bind-attr class=":btn isQuarter:btn--primary"}}>{{i18n "domain.filter.quarter"}}</button>
   <button {{action "filter" "year"}} {{bind-attr class=":btn isYear:btn--primary"}}>{{i18n "domain.filter.year"}}</button>
-  </div>
+</div>
 
 <ul class="nav nav--tabs report-tabs">
   <li {{bind-attr class=":navbar__item isTableView:active"}}{{action "changeType" "table"}}>
@@ -36,14 +34,14 @@
     {{#if model.reports}}
       {{#if isTableView}}
         <table class="report-table">
-            <tr>
-          <th>Date</th>
-          <th>Document URI</th>
-          <th>Referrer</th>
-          <th>Violated directive</th>
-          <th>Original policy</th>
-          <th>Blocked URI</th>
-          <th>Raw</th>
+          <tr>
+            <th>Date</th>
+            <th>Document URI</th>
+            <th>Referrer</th>
+            <th>Violated directive</th>
+            <th>Original policy</th>
+            <th>Blocked URI</th>
+          </tr>
           {{#each report in model.reports}}
             <tr>
               <td>{{formatted-date report.createdAt "DD/MM/YYYY hh:mm A"}}</td>
@@ -52,7 +50,6 @@
               <td>{{report.violatedDirective}}</td>
               <td>{{report.originalPolicy}}</td>
               <td>{{report.blockedUri}}</td>
-              <td>{{d-button label="csp_reports.show"}}</td>
             </tr>
           {{/each}}
         </table>
@@ -63,5 +60,4 @@
       <p>No results</p>
     {{/if}}
   {{/conditional-loading-spinner}}
-</div>
 </div>
