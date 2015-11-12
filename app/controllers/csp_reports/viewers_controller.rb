@@ -10,9 +10,32 @@ module CspReports
     end
 
     def index
+      respond_to do |format|
+        format.html do
+          store_preloaded("viewers", MultiJson.dump(viewers))
+          render "default/empty"
+        end
+
+        format.json { render json: viewers }
+      end
     end
 
     def destroy
+    end
+
+    private
+
+    def viewers
+      serialize_data(
+        domain.viewers,
+        ViewerSerializer,
+        root: false,
+        host: request.base_url
+      )
+    end
+
+    def domain
+      @domain ||= Domain.find(params[:domain_id])
     end
   end
 end
