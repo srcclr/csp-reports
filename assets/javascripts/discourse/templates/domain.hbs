@@ -46,11 +46,11 @@
             {{#each report in model.reports}}
               <tr>
                 <td>{{formatted-date report.createdAt "DD/MM/YYYY hh:mm A"}}</td>
-                <td>{{report.documentUri}}</td>
+                <td class="uri-col">{{report.documentUri}}</td>
                 <td>{{report.referrer}}</td>
                 <td>{{report.violatedDirective}}</td>
                 <td>{{report.originalPolicy}}</td>
-                <td>{{report.blockedUri}}</td>
+                <td class="uri-col">{{report.blockedUri}}</td>
               </tr>
             {{/each}}
           </table>
