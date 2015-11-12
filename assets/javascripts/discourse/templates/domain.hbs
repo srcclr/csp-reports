@@ -1,51 +1,66 @@
-{{#link-to "csp-reports"}}Back{{/link-to}}
-<p>Name: {{model.name}}</p>
+<div class="container">
+  {{#link-to "csp-reports" class="nav-back"}}
+    <i class="fa fa-arrow-left"></i>
+    <span>Back</span>
+  {{/link-to}}
+  <h3 class="site-name">{{model.name}} <span class="nav-back">({{model.url}})</span></h3>
 
-<p>URL: {{model.url}}</p>
+  <h4 class="table-title">CSP Reports</h4>
 
-<h3>CSP Violations results</h3>
+  <div class="table-filters">
+    <button {{action "filter" "all"}} {{bind-attr class=":btn isAll:btn--primary"}}>{{i18n "domain.filter.all"}}</button>
+    <button {{action "filter" "day"}} {{bind-attr class=":btn isToday:btn--primary"}}>{{i18n "domain.filter.today"}}</button>
+    <button {{action "filter" "week"}} {{bind-attr class=":btn isWeek:btn--primary"}}>{{i18n "domain.filter.week"}}</button>
+    <button {{action "filter" "month"}} {{bind-attr class=":btn isMonth:btn--primary"}}>{{i18n "domain.filter.month"}}</button>
+    <button {{action "filter" "quarter"}} {{bind-attr class=":btn isQuarter:btn--primary"}}>{{i18n "domain.filter.quarter"}}</button>
+    <button {{action "filter" "year"}} {{bind-attr class=":btn isYear:btn--primary"}}>{{i18n "domain.filter.year"}}</button>
+  </div>
 
-<div class="filters">
-  <button {{action "filter" "all"}} {{bind-attr class="isAll:active"}}>{{i18n "domain.filter.all"}}</button>
-  <button {{action "filter" "day"}} {{bind-attr class="isToday:active"}}>{{i18n "domain.filter.today"}}</button>
-  <button {{action "filter" "week"}} {{bind-attr class="isWeek:active"}}>{{i18n "domain.filter.week"}}</button>
-  <button {{action "filter" "month"}} {{bind-attr class="isMonth:active"}}>{{i18n "domain.filter.month"}}</button>
-  <button {{action "filter" "quarter"}} {{bind-attr class="isQuarter:active"}}>{{i18n "domain.filter.quarter"}}</button>
-  <button {{action "filter" "year"}} {{bind-attr class="isYear:active"}}>{{i18n "domain.filter.year"}}</button>
+  <ul class="nav nav--tabs report-tabs">
+    <li {{bind-attr class=":navbar__item isTableView:active"}}{{action "changeType" "table"}}>
+      <a href="" class="navbar__link">
+        <i class="sci sci__view-list"></i>
+        <span>Table</span>
+      </a>
+    </li>
+    <li {{bind-attr class=":navbar__item isGraphView:active"}} {{action "changeType" "graph"}}>
+      <a href="" class="navbar__link">
+        <i class="sci sci__view--graph"></i>
+        <span>Graph</span>
+      </a>
+    </li>
+  </ul>
+
+  <div class="report">
+    {{#conditional-loading-spinner condition=loading}}
+      {{#if model.reports}}
+        {{#if isTableView}}
+          <table class="report-table">
+            <tr>
+              <th>Date</th>
+              <th>Document URI</th>
+              <th>Referrer</th>
+              <th>Violated directive</th>
+              <th>Original policy</th>
+              <th>Blocked URI</th>
+            </tr>
+            {{#each report in model.reports}}
+              <tr>
+                <td >{{formatted-date report.createdAt "DD/MM/YYYY hh:mm A"}}</td>
+                <td class="uri-col">{{report.documentUri}}</td>
+                <td>{{report.referrer}}</td>
+                <td>{{report.violatedDirective}}</td>
+                <td>{{report.originalPolicy}}</td>
+                <td class="uri-col">{{report.blockedUri}}</td>
+              </tr>
+            {{/each}}
+          </table>
+        {{else}}
+          {{reports-graph model=groupedReports}}
+        {{/if}}
+      {{else}}
+        <p>No results</p>
+      {{/if}}
+    {{/conditional-loading-spinner}}
+  </div>
 </div>
-
-<div class="report-type">
-  <button {{action "changeType" "table"}} {{bind-attr class="isTableView:active"}}>Table</button>
-  <button {{action "changeType" "graph"}} {{bind-attr class="isGraphView:active"}}>Graph</button>
-</div>
-
-{{#conditional-loading-spinner condition=loading}}
-  {{#if model.reports}}
-    {{#if isTableView}}
-      <table>
-        <th>Date</th>
-        <th>Document URI</th>
-        <th>Referrer</th>
-        <th>Violated directive</th>
-        <th>Original policy</th>
-        <th>Blocked URI</th>
-        <th>Raw</th>
-        {{#each report in model.reports}}
-          <tr>
-            <td>{{formatted-date report.createdAt "DD/MM/YYYY hh:mm A"}}</td>
-            <td>{{report.documentUri}}</td>
-            <td>{{report.referrer}}</td>
-            <td>{{report.violatedDirective}}</td>
-            <td>{{report.originalPolicy}}</td>
-            <td>{{report.blockedUri}}</td>
-            <td>{{d-button label="csp_reports.show"}}</td>
-          </tr>
-        {{/each}}
-      </table>
-    {{else}}
-      {{reports-graph model=groupedReports}}
-    {{/if}}
-  {{else}}
-    <p>No results</p>
-  {{/if}}
-{{/conditional-loading-spinner}}

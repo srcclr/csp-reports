@@ -1,0 +1,60 @@
+.domain-form {
+  .fa {
+    vertical-align: baseline;
+  }
+
+  input[type="text"].control--text {
+    padding: 0.6em 1.2em;
+    border: 1px solid #dadcdf;
+    height: 2.5em;
+  }
+}
+
+.site-name {
+  margin: 30px 10px 50px 0;
+  line-height: normal;
+  border-bottom: 2px solid;
+  font-size: 30px;
+  text-transform: uppercase;
+
+  span {
+    vertical-align: middle;
+    text-transform: none;
+  }
+}
+
+.table-title{
+  margin-bottom: 10px;
+  font-size: 20px;
+}
+
+.table-filters {
+  margin: 0 0 15px;
+}
+
+.nav--tabs.report-tabs {
+  margin-bottom: 20px;
+  padding: 0;
+}
+
+.report {
+  margin-bottom: 50px;
+}
+
+.report-table {
+  tr:nth-child(2n) {
+    background: #e2e3e4;
+  }
+
+  tr:nth-child(2n+1) {
+    background: #b2b2b2;
+  }
+
+  th {
+    text-align: left;
+  }
+}
+
+.uri-col {
+  max-width: 230px;
+}
