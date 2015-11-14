@@ -1,4 +1,8 @@
-let Viewer = Discourse.Model.extend({});
+let Viewer = Discourse.Model.extend({
+  destroy(domainId) {
+    return Discourse.ajax("/csp-reports/domains/" + domainId + "/viewers/" + this.get("id"), { type: "DELETE" });
+  }
+});
 
 Viewer.reopenClass({
   createFromJson(json) {

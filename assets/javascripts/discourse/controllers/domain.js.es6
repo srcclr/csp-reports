@@ -8,6 +8,7 @@ export default Ember.Controller.extend({
   viewType: "table",
   loading: false,
   filterQuery: "",
+  selectedViewer: null,
 
   isAll: Em.computed.equal("filter", "all"),
   isToday: Em.computed.equal("filter", "day"),
@@ -66,6 +67,12 @@ export default Ember.Controller.extend({
     destroy() {
       this.get("model").destroy().then(() => {
         this.get("parentController.model.domains").removeObject(this.get("model"))
+      }).catch(popupAjaxError);
+    },
+
+    addViewer() {
+      this.get("model").addViewer(this.get("selectedViewer")).then(() => {
+        this.set("selectedViewer", this.get("model.candidate_viewers.0"));
       }).catch(popupAjaxError);
     }
   }

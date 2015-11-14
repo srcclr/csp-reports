@@ -1,5 +1,5 @@
 module CspReports
   class ViewerSerializer < ActiveModel::Serializer
-    attributes :id, :name
+    attributes :id, :username
   end
 end

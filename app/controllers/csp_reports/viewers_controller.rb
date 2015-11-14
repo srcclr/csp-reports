@@ -7,36 +7,23 @@ module CspReports
     respond_to :html, :json
 
     def create
-    end
-
-    def index
-      respond_to do |format|
-        format.html do
-          store_preloaded("viewers", MultiJson.dump(viewers))
-          render "default/empty"
-        end
-
-        format.json { render json: viewers }
-      end
+      shared_domain = domain.shared_domains.create(user_id: params[:user_id])
+      render json: serialize_data(shared_domain.user, ViewerSerializer)
     end
 
     def destroy
+      status = shared_domain.try(:destroy) ? :ok : :not_found
+      head status
     end
 
     private
 
-    def viewers
-      binding.pry
-      serialize_data(
-        domain.viewers,
-        ViewerSerializer,
-        root: false,
-        host: request.base_url
-      )
-    end
-
     def domain
       @domain ||= Domain.find(params[:domain_id])
+    end
+
+    def shared_domain
+      @shared_domain ||= domain.shared_domains.find_by_user_id(params[:id])
     end
   end
 end

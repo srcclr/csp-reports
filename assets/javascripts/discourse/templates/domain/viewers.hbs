@@ -1,7 +1,11 @@
-{{#if model.viewers}}
-  <ul>
-  {{#each viewer in model.viewers}}
-    <li>{{viewer.username}}</li>
-  {{/each}}
-  </ul>
-{{/if}}
+<div class="mb">
+  {{view "select" content=model.candidate_viewers optionValuePath="content.id" optionLabelPath="content.username" selectionBinding=selectedViewer}}
+  {{d-button action="addViewer" icon="plus" label="domain.add_viewer" class="btn--primary"}}
+</div>
+
+{{#each viewer in model.viewers itemController="viewer"}}
+  <p>
+    {{#link-to "user" viewer.model.username}}{{viewer.model.username}}{{/link-to}}
+    {{d-button action="destroy" icon="trash-o"}}
+  </p>
+{{/each}}
