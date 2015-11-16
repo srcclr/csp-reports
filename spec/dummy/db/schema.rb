@@ -194,8 +194,8 @@ ActiveRecord::Schema.define(version: 20151013100153) do
   end
 
   create_table "csp_reports_domains", force: :cascade do |t|
-    t.string   "name",       limit: 255
-    t.string   "url",        limit: 255
+    t.string   "name"
+    t.string   "url"
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -407,8 +407,8 @@ ActiveRecord::Schema.define(version: 20151013100153) do
   create_table "headlines_categories", force: :cascade do |t|
     t.string   "title",       default: "",                    null: false
     t.string   "topic",       default: "",                    null: false
-    t.datetime "created_at",  default: '2015-07-06 16:47:19', null: false
-    t.datetime "updated_at",  default: '2015-07-06 16:47:19', null: false
+    t.datetime "created_at",  default: '2015-08-12 15:24:06', null: false
+    t.datetime "updated_at",  default: '2015-08-12 15:24:06', null: false
     t.integer  "category_id"
     t.text     "description", default: ""
     t.integer  "parents",     default: [],                    null: false, array: true
@@ -425,17 +425,15 @@ ActiveRecord::Schema.define(version: 20151013100153) do
     t.string   "country_code",        default: "", null: false
     t.xml      "data_alexa"
     t.integer  "parent_category_ids", default: [], null: false, array: true
-    t.integer  "last_scan_id"
   end
 
-  add_index "headlines_domains", ["last_scan_id"], name: "index_headlines_domains_on_last_scan_id", using: :btree
   add_index "headlines_domains", ["name"], name: "index_headlines_domains_on_name", unique: true, using: :btree
   add_index "headlines_domains", ["parent_category_ids"], name: "index_headlines_domains_on_parent_category_ids", using: :gin
 
   create_table "headlines_domains_categories", force: :cascade do |t|
     t.integer  "category_id"
-    t.datetime "created_at",  default: '2015-07-06 16:47:19', null: false
-    t.datetime "updated_at",  default: '2015-07-06 16:47:19', null: false
+    t.datetime "created_at",  default: '2015-08-12 15:24:06', null: false
+    t.datetime "updated_at",  default: '2015-08-12 15:24:06', null: false
     t.string   "domain_name"
   end
 
@@ -449,8 +447,6 @@ ActiveRecord::Schema.define(version: 20151013100153) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "score",      default: 0
-    t.integer  "http_score", default: 0
-    t.integer  "csp_score",  default: 0
   end
 
   add_index "headlines_scans", ["domain_id"], name: "index_headlines_scans_on_domain_id", using: :btree
@@ -1377,7 +1373,7 @@ ActiveRecord::Schema.define(version: 20151013100153) do
     t.boolean  "disable_jump_reply",                        default: false, null: false
     t.boolean  "edit_history_public",                       default: false, null: false
     t.boolean  "trust_level_locked",                        default: false, null: false
-    t.string   "report_uri_hash",               limit: 255
+    t.string   "report_uri_hash"
   end
 
   add_index "users", ["auth_token"], name: "index_users_on_auth_token", using: :btree
@@ -1421,5 +1417,6 @@ ActiveRecord::Schema.define(version: 20151013100153) do
   add_index "warnings", ["topic_id"], name: "index_warnings_on_topic_id", unique: true, using: :btree
   add_index "warnings", ["user_id"], name: "index_warnings_on_user_id", using: :btree
 
+  add_foreign_key "csp_reports_domains", "users"
   add_foreign_key "csp_reports_reports", "csp_reports_domains"
 end

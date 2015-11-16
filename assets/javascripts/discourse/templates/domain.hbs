@@ -3,6 +3,7 @@
     <i class="fa fa-arrow-left"></i>
     <span>Back</span>
   {{/link-to}}
+
   <h3 class="site-name">{{model.name}} <span class="nav-back">({{model.url}})</span></h3>
   <h4 class="table-title">CSP Violations results</h4>
 
@@ -26,6 +27,12 @@
       <a href="" class="navbar__link">
         <i class="sci sci__view--graph"></i>
         Graph
+      </a>
+    </li>
+    <li {{bind-attr class=":navbar__item isViewersView:active"}} {{action "changeType" "viewers"}}>
+      <a href="" class="navbar__link">
+        <i class="sci sci__view--list"></i>
+        Viewers
       </a>
     </li>
   </ul>
@@ -55,7 +62,11 @@
             {{/each}}
           </table>
         {{else}}
-          {{reports-graph model=groupedReports}}
+          {{#if isGraphView}}
+            {{reports-graph model=groupedReports}}
+          {{else}}
+            {{partial "domain/viewers"}}
+          {{/if}}
         {{/if}}
       {{else}}
         <p>No results</p>
