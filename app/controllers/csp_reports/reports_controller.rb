@@ -9,7 +9,7 @@ module CspReports
     end
 
     def create
-      @domain.reports.create(result: params["csp-report"])
+      @domain.reports.create(result: parsed_report["csp-report"])
 
       head :created
     end
@@ -21,8 +21,18 @@ module CspReports
     end
 
     def verify_domain!
-      @domain = @user.domains.find_by_url(request.referrer)
+      @domain = @user.domains.find_by_url(referrer_domain)
+
       head :unauthorized if @domain.blank?
+    end
+
+    def referrer_domain
+      referrer_uri = URI(request.referrer)
+      domain_name = "#{referrer_uri.scheme}://#{referrer_uri.host}"
+    end
+
+    def parsed_report
+      JSON.parse(request.raw_post)
     end
   end
 end
