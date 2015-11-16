@@ -43,7 +43,7 @@ module CspReports
     private
 
     def domain
-      @domain ||= current_user.domains.find_by(id: params[:id])
+      @domain ||= current_user.domains.find_by_id(params[:id]) || current_user.friend_domains.find_by_id(params[:id])
     end
 
     def reports

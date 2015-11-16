@@ -13,7 +13,8 @@ CspReport.reopenClass({
   createFromJson(json) {
     return this.create({
       reportUri: json.report_uri,
-      domains: _.map(json.domains, (domain) => { return Domain.create(domain); })
+      domains: _.map(json.domains, (domain) => { return Domain.create(domain); }),
+      friend_domains: _.map(json.friend_domains, (domain) => { return Domain.create(domain); })
     });
   }
 });

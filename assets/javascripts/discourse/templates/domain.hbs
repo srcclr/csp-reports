@@ -39,37 +39,37 @@
 
   <div class="report">
     {{#conditional-loading-spinner condition=loading}}
-      {{#if model.reports}}
-        {{#if isTableView}}
-          <table class="report-table">
-            <tr>
-              <th>Date</th>
-              <th>Document URI</th>
-              <th>Referrer</th>
-              <th>Violated directive</th>
-              <th>Original policy</th>
-              <th>Blocked URI</th>
-            </tr>
-            {{#each report in model.reports}}
-              <tr>
-                <td>{{formatted-date report.createdAt "DD/MM/YYYY hh:mm A"}}</td>
-                <td class="uri-col">{{report.documentUri}}</td>
-                <td>{{report.referrer}}</td>
-                <td>{{report.violatedDirective}}</td>
-                <td>{{report.originalPolicy}}</td>
-                <td class="uri-col">{{report.blockedUri}}</td>
-              </tr>
-            {{/each}}
-          </table>
-        {{else}}
-          {{#if isGraphView}}
-            {{reports-graph model=groupedReports}}
-          {{else}}
-            {{partial "domain/viewers"}}
-          {{/if}}
-        {{/if}}
+      {{#if isViewersView}}
+        {{partial "domain/viewers"}}
       {{else}}
-        <p>No results</p>
+        {{#if model.reports}}
+          {{#if isTableView}}
+            <table class="report-table">
+              <tr>
+                <th>Date</th>
+                <th>Document URI</th>
+                <th>Referrer</th>
+                <th>Violated directive</th>
+                <th>Original policy</th>
+                <th>Blocked URI</th>
+              </tr>
+              {{#each report in model.reports}}
+                <tr>
+                  <td>{{formatted-date report.createdAt "DD/MM/YYYY hh:mm A"}}</td>
+                  <td class="uri-col">{{report.documentUri}}</td>
+                  <td>{{report.referrer}}</td>
+                  <td>{{report.violatedDirective}}</td>
+                  <td>{{report.originalPolicy}}</td>
+                  <td class="uri-col">{{report.blockedUri}}</td>
+                </tr>
+              {{/each}}
+            </table>
+          {{else}}
+            {{reports-graph model=groupedReports}}
+          {{/if}}
+        {{else}}
+          <p>No results</p>
+        {{/if}}
       {{/if}}
     {{/conditional-loading-spinner}}
   </div>

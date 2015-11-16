@@ -15,9 +15,19 @@
   </div>
 
   {{#each domain in model.domains itemController="domain"}}
-    <p>
+    <p class="">
       {{#link-to 'domain' domain.model.id}}{{domain.model.name}} ({{domain.model.url}}){{/link-to}}
       {{d-button action="destroy" icon="trash-o"}}
     </p>
   {{/each}}
+
+  {{#if model.friend_domains}}
+    <p class="mt"><strong>Shared domains:</strong></p>
+
+    {{#each domain in model.friend_domains itemController="domain"}}
+      <p class="pb--">
+        {{#link-to 'domain' domain.model.id}}{{domain.model.name}} ({{domain.model.url}}){{/link-to}}
+      </p>
+    {{/each}}
+  {{/if}}
 </div>
