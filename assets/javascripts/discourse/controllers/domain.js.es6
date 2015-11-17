@@ -72,7 +72,7 @@ export default Ember.Controller.extend({
 
     addViewer() {
       this.get("model").addViewer(this.get("selectedViewer")).then(() => {
-        this.set("selectedViewer", this.get("model.candidate_viewers.0"));
+        this.set("selectedViewer", this.get("model.candidateViewers.0"));
       }).catch(popupAjaxError);
     }
   }
