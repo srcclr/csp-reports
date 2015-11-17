@@ -63,7 +63,8 @@ module CspReports
         domain,
         DomainWithReportsSerializer,
         root: false,
-        reports: reports
+        reports: reports,
+        current_user: current_user
       )
     end
 
