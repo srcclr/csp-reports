@@ -5,7 +5,7 @@ export default Ember.Controller.extend({
     destroy() {
       this.get("model").destroy(this.get("parentController.model.id")).then(() => {
         this.get("parentController.model.viewers").removeObject(this.get("model"))
-        this.get("parentController.model.candidate_viewers").pushObject(this.get("model"));
+        this.get("parentController.model.candidateViewers").pushObject(this.get("model"));
         this.set("parentController.selectedViewer", this.get("model"));
       }).catch(popupAjaxError);
     }

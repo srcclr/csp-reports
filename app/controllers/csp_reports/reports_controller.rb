@@ -28,7 +28,7 @@ module CspReports
 
     def referrer_domain
       referrer_uri = URI(request.referrer)
-      domain_name = "#{referrer_uri.scheme}://#{referrer_uri.host}"
+      "#{referrer_uri.scheme}://#{referrer_uri.host}"
     end
 
     def parsed_report

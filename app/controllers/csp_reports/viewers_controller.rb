@@ -3,6 +3,7 @@ module CspReports
     skip_before_action :redirect_to_login_if_required, :check_xhr
 
     before_action :ensure_logged_in
+    before_action :authorize_user!
 
     respond_to :html, :json
 
@@ -17,6 +18,10 @@ module CspReports
     end
 
     private
+
+    def authorize_user!
+      head :unauthorized unless domain.user == current_user
+    end
 
     def domain
       @domain ||= Domain.find(params[:domain_id])

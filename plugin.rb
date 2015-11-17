@@ -4,7 +4,7 @@
 
 require(File.expand_path("../lib/csp_reports", __FILE__))
 
-register_asset('stylesheets/csp_reports/csp-reports.css.scss')
+register_asset("stylesheets/csp_reports/csp-reports.css.scss")
 
 after_initialize do
   require(File.expand_path("../app/models/user", __FILE__))

@@ -3,6 +3,7 @@ module CspReports
     attributes :report_uri
 
     has_many :domains, serializer: DomainSerializer, embed: :objects
+    has_many :friend_domains, serializer: DomainSerializer, embed: :objects
 
     private
 

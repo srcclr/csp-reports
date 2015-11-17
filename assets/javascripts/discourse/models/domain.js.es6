@@ -12,7 +12,7 @@ let Domain = Discourse.Model.extend({
       data: { user_id: viewer.id }
     }).then((res) => {
       this.get("viewers").pushObject(Viewer.createFromJson(res.viewer));
-      this.get("candidate_viewers").removeObject(this.candidate_viewers.findProperty("id", res.viewer.id));
+      this.get("candidateViewers").removeObject(this.candidateViewers.findProperty("id", res.viewer.id));
     });
   }
 });
@@ -23,9 +23,10 @@ Domain.reopenClass({
       id: json.id,
       name: json.name,
       url: json.url,
+      isOwn: json.own_domain,
       reports: _.map(json.reports, (report) => { return Report.createFromJson(report); }),
       viewers: _.map(json.viewers, (viewer) => { return Viewer.createFromJson(viewer); }),
-      candidate_viewers: _.map(json.candidate_viewers, (viewer) => { return Viewer.createFromJson(viewer); })
+      candidateViewers: _.map(json.candidate_viewers, (viewer) => { return Viewer.createFromJson(viewer); })
     });
   }
 });

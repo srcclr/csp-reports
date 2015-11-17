@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151013100153) do
+ActiveRecord::Schema.define(version: 20151111102249) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -211,6 +211,14 @@ ActiveRecord::Schema.define(version: 20151013100153) do
   end
 
   add_index "csp_reports_reports", ["csp_reports_domain_id"], name: "index_csp_reports_reports_on_csp_reports_domain_id", using: :btree
+
+  create_table "csp_reports_shared_domains", force: :cascade do |t|
+    t.integer "csp_reports_domain_id"
+    t.integer "user_id"
+  end
+
+  add_index "csp_reports_shared_domains", ["csp_reports_domain_id"], name: "index_csp_reports_shared_domains_on_csp_reports_domain_id", using: :btree
+  add_index "csp_reports_shared_domains", ["user_id"], name: "index_csp_reports_shared_domains_on_user_id", using: :btree
 
   create_table "digest_unsubscribe_keys", primary_key: "key", force: :cascade do |t|
     t.integer  "user_id",    null: false
