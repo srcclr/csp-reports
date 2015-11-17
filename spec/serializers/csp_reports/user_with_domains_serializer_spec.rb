@@ -2,7 +2,7 @@ require "rails_helper"
 
 module CspReports
   describe UserWithDomainsSerializer do
-    let(:user) { FactoryGirl.create(:user, report_uri_hash: SecureRandom.uuid) }
+    let!(:user) { FactoryGirl.create(:user, report_uri_hash: SecureRandom.uuid) }
     let!(:domain) { FactoryGirl.create(:domain, user: user) }
 
     subject(:serializer) { described_class.new(user).as_json }

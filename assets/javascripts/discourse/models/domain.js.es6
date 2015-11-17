@@ -23,7 +23,7 @@ Domain.reopenClass({
       id: json.id,
       name: json.name,
       url: json.url,
-      isOwn: json.is_own,
+      isOwn: json.own_domain,
       reports: _.map(json.reports, (report) => { return Report.createFromJson(report); }),
       viewers: _.map(json.viewers, (viewer) => { return Viewer.createFromJson(viewer); }),
       candidateViewers: _.map(json.candidate_viewers, (viewer) => { return Viewer.createFromJson(viewer); })

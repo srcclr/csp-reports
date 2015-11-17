@@ -1,6 +1,6 @@
 module CspReports
   class DomainWithReportsSerializer < DomainSerializer
-    attributes :is_own
+    attributes :own_domain
 
     has_many :reports
     has_many :viewers, each_serializer: ViewerSerializer
@@ -8,7 +8,7 @@ module CspReports
 
     private
 
-    def is_own
+    def own_domain
       object.user == options[:current_user]
     end
 

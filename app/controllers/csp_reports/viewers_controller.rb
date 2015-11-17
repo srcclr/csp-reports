@@ -20,9 +20,7 @@ module CspReports
     private
 
     def authorize_user!
-      unless domain.user == current_user
-        head :unauthorized
-      end
+      head :unauthorized unless domain.user == current_user
     end
 
     def domain
