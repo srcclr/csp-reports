@@ -3,7 +3,7 @@ require "rails_helper"
 module CspReports
   describe "POST /report-uri/:report-uri-hash" do
     let!(:user) { FactoryGirl.create(:user, report_uri_hash: SecureRandom.uuid) }
-    let!(:domain) { FactoryGirl.create(:domain, user: user, url:  "https://www.google.com/") }
+    let!(:domain) { FactoryGirl.create(:domain, user: user, url: "https://www.google.com") }
 
     let(:referrer) { domain.url }
 
@@ -22,7 +22,7 @@ module CspReports
     before do
       allow_any_instance_of(ActionDispatch::Request).to receive(:referrer).and_return(referrer)
 
-      post "/csp-reports/report-uri/#{report_uri_hash}", params
+      post "/report-uri/#{report_uri_hash}", params.to_json
     end
 
     context "when report-uri hash is valid" do
@@ -36,7 +36,7 @@ module CspReports
       end
 
       context "when referrer domain is invalid" do
-        let(:referrer) { "some malicious referrer" }
+        let(:referrer) { "some_malicious_referrer.org" }
 
         specify { expect(response.code).to eq("401") }
       end
