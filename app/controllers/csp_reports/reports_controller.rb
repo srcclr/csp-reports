@@ -21,7 +21,7 @@ module CspReports
     end
 
     def verify_domain!
-      @domain = @user.domains.find_by_url(referrer_domain)
+      @domain = @user.domains.with_url(referrer_domain).first
 
       head :unauthorized if @domain.blank?
     end
