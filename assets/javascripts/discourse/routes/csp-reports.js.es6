@@ -1,7 +1,12 @@
 import CspReport from "../models/csp-report";
 
 export default Discourse.Route.extend({
-  beforeModel() { return this.redirectIfLoginRequired(); },
+  beforeModel() {
+    const app = this.controllerFor('application');
+    if (!app.get('currentUser')) {
+      this.replaceWith('/projects/csp-reports');
+    }
+  },
 
   model() {
     return PreloadStore.getAndRemove('domains', () => {

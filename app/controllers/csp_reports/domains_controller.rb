@@ -40,6 +40,14 @@ module CspReports
       head status
     end
 
+    rescue_from Discourse::NotLoggedIn do |e|
+      if (request.format && request.format.json?) || request.xhr? || !request.get?
+        rescue_discourse_actions(:not_logged_in, 403, true)
+      else
+        redirect_to path("/projects/csp-reports")
+      end
+    end
+
     private
 
     def domain
