@@ -1,7 +1,8 @@
 import CspReport from "../models/csp-report";
+import RedirectIfNotLoggedIn from "../mixins/redirect-if-not-logged-in";
 
-export default Discourse.Route.extend({
-  beforeModel() { return this.redirectIfLoginRequired(); },
+export default Discourse.Route.extend(RedirectIfNotLoggedIn, {
+  redirect() { return this.redirectIfNotLoggedIn("/projects/csp-reports"); },
 
   model() {
     return PreloadStore.getAndRemove('domains', () => {
