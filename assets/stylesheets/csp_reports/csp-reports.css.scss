@@ -42,17 +42,25 @@
 }
 
 .report-table {
-  tr:nth-child(2n) {
-    background: #e2e3e4;
-  }
-
-  tr:nth-child(2n+1) {
+  thead {
     background: #b2b2b2;
   }
 
   th {
     border-bottom: 0;
     text-align: left;
+  }
+
+  tbody tr {
+    &:nth-child(4n-1),
+    &:nth-child(4n) {
+      background: #b2b2b2;
+    }
+
+    &:nth-child(4n+1),
+    &:nth-child(4n+2) {
+      background: #e2e3e4;
+    }
   }
 }
 
