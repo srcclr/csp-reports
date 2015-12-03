@@ -81,7 +81,8 @@ module CspReports
         current_user,
         UserWithDomainsSerializer,
         root: false,
-        host: request.base_url
+        host: request.base_url,
+        current_user: current_user
       )
     end
 

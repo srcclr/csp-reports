@@ -2,6 +2,8 @@
 # about: CSP Violations Reporter
 # version: 0.0.1
 
+gem("enumerize", "1.1.0")
+
 require(File.expand_path("../lib/csp_reports", __FILE__))
 
 register_asset("stylesheets/csp_reports/csp-reports.css.scss")
