@@ -23,7 +23,7 @@
   }
 }
 
-.table-title{
+.table-title {
   margin-bottom: 10px;
   font-size: 20px;
 }
@@ -51,15 +51,13 @@
     text-align: left;
   }
 
-  tbody tr {
-    &:nth-child(4n-1),
-    &:nth-child(4n) {
-      background: #b2b2b2;
+  tbody {
+    &:nth-child(odd) {
+      background: #e2e3e4;
     }
 
-    &:nth-child(4n+1),
-    &:nth-child(4n+2) {
-      background: #e2e3e4;
+    &:nth-child(even) {
+      background: #b2b2b2;
     }
   }
 }
