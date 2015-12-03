@@ -23,7 +23,7 @@
   }
 }
 
-.table-title{
+.table-title {
   margin-bottom: 10px;
   font-size: 20px;
 }
@@ -42,16 +42,23 @@
 }
 
 .report-table {
-  tr:nth-child(2n) {
-    background: #e2e3e4;
-  }
-
-  tr:nth-child(2n+1) {
+  thead {
     background: #b2b2b2;
   }
 
   th {
+    border-bottom: 0;
     text-align: left;
+  }
+
+  tbody {
+    &:nth-child(odd) {
+      background: #e2e3e4;
+    }
+
+    &:nth-child(even) {
+      background: #b2b2b2;
+    }
   }
 }
 
