@@ -9,6 +9,7 @@ module CspReports
 
     def create
       shared_domain = domain.shared_domains.create(user_id: params[:user_id])
+      Jobs.enqueue(:shared_domain, user_id: params[:user_id], domain_id: domain.id)
       render json: serialize_data(shared_domain.user, ViewerSerializer)
     end
 
