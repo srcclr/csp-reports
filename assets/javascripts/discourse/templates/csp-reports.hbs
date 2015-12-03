@@ -14,12 +14,36 @@
     {{/if}}
   </div>
 
-  {{#each domain in model.domains itemController="domain"}}
-    <p class="">
-      {{#link-to 'domain' domain.model.id}}{{domain.model.name}} ({{domain.model.url}}){{/link-to}}
-      {{d-button action="destroy" icon="trash-o"}}
-    </p>
-  {{/each}}
+  <table class="domains-list-table">
+    <thead>
+      <tr>
+        <th>Domain Name</th>
+        <th>Domain URL</th>
+        <th>Notifications</th>
+        <th></th>
+      </tr>
+    </thead>
+
+    {{#each domain in model.domains itemController="domain"}}
+      <tr>
+        <td>
+          {{#link-to 'domain' domain.model.id}}{{domain.model.name}}{{/link-to}}
+        </td>
+        <td>
+          <a href="{{domain.model.url}}" target="_blank">{{domain.model.url}}</a>
+        </td>
+        <td>
+          <button class="btn--default btn--xs">Never</button>
+          <button class="btn btn--xs">Daily</button>
+          <button class="btn btn--xs">Weekly</button>
+          <button class="btn btn--xs">Monthly</button>
+        </td>
+        <td>
+          {{d-button action="destroy" icon="trash-o"}}
+        </td>
+      </tr>
+    {{/each}}
+  </table>
 
   {{#if model.friend_domains}}
     <p class="mt"><strong>Shared domains:</strong></p>

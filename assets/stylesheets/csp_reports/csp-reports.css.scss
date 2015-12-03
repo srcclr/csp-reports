@@ -41,6 +41,24 @@
   margin-bottom: 50px;
 }
 
+.domains-list-table {
+  thead {
+    margin-bottom: 0;
+    border-bottom: 2px solid #0082ba;
+    text-align: left;
+    line-height: 30px;
+    font-weight: bold;
+  }
+
+  tr {
+    border-bottom: 1px solid #c0ddec;
+  }
+
+  td {
+    padding: 5px;
+  }
+}
+
 .report-table {
   thead {
     background: #b2b2b2;
