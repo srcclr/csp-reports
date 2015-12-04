@@ -7,6 +7,8 @@ module CspReports
 
     respond_to :html, :json
 
+    serialization_scope :view_context
+
     def create
       domain = Domain.create!(domain_params.merge(user_id: current_user.id))
       render json: domain
@@ -40,9 +42,9 @@ module CspReports
       head status
     end
 
-    rescue_from Discourse::NotLoggedIn do |e|
+    rescue_from Discourse::NotLoggedIn do
       if (request.format && request.format.json?) || request.xhr? || !request.get?
-        render json: { }
+        render json: {}
       else
         redirect_to path("/projects/csp-reports")
       end
@@ -71,8 +73,7 @@ module CspReports
         domain,
         DomainWithReportsSerializer,
         root: false,
-        reports: reports,
-        current_user: current_user
+        reports: reports
       )
     end
 

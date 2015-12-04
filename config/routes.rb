@@ -1,6 +1,7 @@
 CspReports::Engine.routes.draw do
   resources :domains, only: %i(index create show destroy) do
     resources :viewers, only: %i(create destroy)
+    resource :email_notifications, only: %i(update)
   end
 
   root to: "domains#index"

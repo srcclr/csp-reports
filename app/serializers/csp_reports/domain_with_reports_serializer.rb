@@ -9,7 +9,7 @@ module CspReports
     private
 
     def own_domain
-      object.user == options[:current_user]
+      object.user == current_user
     end
 
     def reports
