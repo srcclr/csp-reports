@@ -6,5 +6,7 @@ module CspReports
     belongs_to :user
 
     enumerize :notification_type, in: %w(never daily weekly monthly), predicates: true
+
+    scope :for_type, -> (type) { where(notification_type: type) }
   end
 end
