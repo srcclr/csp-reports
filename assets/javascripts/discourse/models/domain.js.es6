@@ -2,21 +2,10 @@ import Report from "./report";
 import Viewer from "./viewer";
 
 let Domain = Discourse.Model.extend({
-  isNever: function() {
-    return this.get('email_notification.notification_type') == "never";
-  }.property("email_notification.notification_type"),
-
-  isDaily: function() {
-    return this.get('email_notification.notification_type') == "daily";
-  }.property("email_notification.notification_type"),
-
-  isWeekly: function() {
-    return this.get('email_notification.notification_type') == "weekly";
-  }.property("email_notification.notification_type"),
-
-  isMonthly: function() {
-    return this.get('email_notification.notification_type') == "monthly";
-  }.property("email_notification.notification_type"),
+  isNever: Em.computed.equal("email_notification.notification_type", "never"),
+  isDaily: Em.computed.equal("email_notification.notification_type", "daily"),
+  isWeekly: Em.computed.equal("email_notification.notification_type", "weekly"),
+  isMonthly: Em.computed.equal("email_notification.notification_type", "monthly"),
 
   destroy() {
     return Discourse.ajax("/csp-reports/domains/" + this.get("id"), { type: "DELETE" });
