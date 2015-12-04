@@ -5,6 +5,6 @@ module CspReports
     belongs_to :domain, foreign_key: "csp_reports_domain_id"
     belongs_to :user
 
-    enumerize :notification_type, in: %w(daily weekly monthly), predicates: true
+    enumerize :notification_type, in: %w(never daily weekly monthly), predicates: true
   end
 end

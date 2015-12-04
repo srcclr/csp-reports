@@ -33,10 +33,10 @@
           <a href="{{domain.model.url}}" target="_blank">{{domain.model.url}}</a>
         </td>
         <td>
-          <button {{bind-attr class=":btn--xs domain.model.email_notification.never:btn--default:btn"}}>Never</button>
-          <button {{bind-attr class=":btn--xs domain.model.email_notification.daily:btn--default:btn"}}>Daily</button>
-          <button {{bind-attr class=":btn--xs domain.model.email_notification.weekly:btn--default:btn"}}>Weekly</button>
-          <button {{bind-attr class=":btn--xs domain.model.email_notification.monthly:btn--default:btn"}}>Monthly</button>
+          <button {{action "setNotificationType" "never"}} {{bind-attr class=":btn--xs domain.model.isNever:btn--default:btn"}}>Never</button>
+          <button {{action "setNotificationType" "daily"}} {{bind-attr class=":btn--xs domain.model.isDaily:btn--default:btn"}}>Daily</button>
+          <button {{action "setNotificationType" "weekly"}} {{bind-attr class=":btn--xs domain.model.isWeekly:btn--default:btn"}}>Weekly</button>
+          <button {{action "setNotificationType" "monthly"}} {{bind-attr class=":btn--xs domain.model.isMonthly:btn--default:btn"}}>Monthly</button>
         </td>
         <td>
           {{d-button action="destroy" icon="trash-o"}}

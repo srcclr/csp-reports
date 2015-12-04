@@ -3,12 +3,7 @@ module CspReports
     attributes :id, :name, :url, :email_notification
 
     def email_notification
-      {
-        never: current_user_email_notification.blank?,
-        daily: current_user_email_notification.try(:daily?),
-        weekly: current_user_email_notification.try(:weekly?),
-        monthly: current_user_email_notification.try(:monthly?)
-      }
+      { notification_type: current_user_email_notification.try(:notification_type) || "never" }
     end
 
     private

@@ -2,8 +2,28 @@ import Report from "./report";
 import Viewer from "./viewer";
 
 let Domain = Discourse.Model.extend({
+  isNever: function() {
+    return this.get('email_notification.notification_type') == "never";
+  }.property("email_notification.notification_type"),
+
+  isDaily: function() {
+    return this.get('email_notification.notification_type') == "daily";
+  }.property("email_notification.notification_type"),
+
+  isWeekly: function() {
+    return this.get('email_notification.notification_type') == "weekly";
+  }.property("email_notification.notification_type"),
+
+  isMonthly: function() {
+    return this.get('email_notification.notification_type') == "monthly";
+  }.property("email_notification.notification_type"),
+
   destroy() {
     return Discourse.ajax("/csp-reports/domains/" + this.get("id"), { type: "DELETE" });
+  },
+
+  setNotificationType(type) {
+    return Discourse.ajax("/csp-reports/domains/" + this.get("id") + "/email_notifications" , { type: "PUT", data: { notification_type: type } });
   },
 
   addViewer(viewer) {
