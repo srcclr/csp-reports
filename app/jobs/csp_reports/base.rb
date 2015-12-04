@@ -1,7 +1,7 @@
 module Jobs
   module CspReports
     class Base < Jobs::Scheduled
-      def execute(args)
+      def execute(_args)
         notifications.find_each do |notification|
           send_report(notification)
         end
@@ -16,8 +16,6 @@ module Jobs
       def send_report(notification)
         report =  CspViolationsReportMailer.report(notification)
         Email::Sender.new(report, :csp_reports).send
-
-        puts "send email to #{notification.user.email}"
       end
     end
   end
