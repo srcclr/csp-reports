@@ -60,6 +60,8 @@
 }
 
 .report-table {
+  table-layout: fixed;
+
   thead {
     background: #b2b2b2;
   }
@@ -71,11 +73,11 @@
 
   tbody {
     &:nth-child(odd) {
-      background: #e2e3e4;
+      background: #b2b2b2;
     }
 
     &:nth-child(even) {
-      background: #b2b2b2;
+      background: #e2e3e4;
     }
   }
 }
