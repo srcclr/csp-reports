@@ -1,0 +1,49 @@
+<div>
+  Hi <%= username %>,
+  <br>
+  This is a <%= notification_type %> CSP violations report for <%= domain_name %> (<a href="<%= domain_url %>"><%= domain_url %></a>).
+</div>
+
+<br>
+
+<% if reports.empty? %>
+  <p>There are no violoations for this domain.</p>
+<% else %>
+  <div id="table">
+    <table class="report-table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Document URI</th>
+          <th>Referrer</th>
+          <th>Violated directive</th>
+          <th>Blocked URI</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% reports.each do |report| %>
+          <tr>
+            <td><%= report.created_at.strftime("%d/%m/%Y %I:%M %p") %></td>
+            <td><%= report.result["document-uri"] %></td>
+            <td><%= report.result["referrer"] %></td>
+            <td><%= report.result["violated-directive"] %></td>
+            <td><%= report.result["blocked-uri"] %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <br>
+
+  <div id="graph">
+  </div>
+<% end %>
+
+<br>
+
+<div>
+  Please check out full <a href="<%= report_url %>">report</a>.
+  <br>
+  Thanks!
+</div>
