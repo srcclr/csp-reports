@@ -8,15 +8,18 @@ module CspReports
     def draw
       graph = Gruff::Line.new
       graph.title = "CSP Violations Graph"
+      graph.hide_legend = true
 
-      data_hash.each_with_index.map do |h, index|
-        graph.labels[index] = "#{h.first.to_i}:00"
+      if @reports.any?
+        data_hash.each_with_index.map do |h, index|
+          graph.labels[index] = h.first
+        end
+
+        graph.dataxy(:violations, graph.labels.keys, data_hash.values, "#00afd7")
+        graph.minimum_value = 0
+        graph.maximum_value = data_hash.values.max + 1
       end
 
-      graph.dataxy(:violations, graph.labels.keys, data_hash.values, "#00afd7")
-      graph.minimum_value = 0
-      graph.maximum_value = data_hash.values.max + 1
-      graph.hide_legend = true
       graph.write(filepath)
     end
 
@@ -27,7 +30,15 @@ module CspReports
     private
 
     def data_hash
-      @data_hash ||= @reports.group("DATE_PART('hour', created_at)").count
+      @data_hash ||= @reports.group(group_expression).order(group_expression).count
+    end
+
+    def group_expression
+      if @type == "daily"
+        "TO_CHAR(created_at, 'HH:00')"
+      else
+        "TO_CHAR(created_at, 'YYYY-MM-DD')"
+      end
     end
 
     def filename
