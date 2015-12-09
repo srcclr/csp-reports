@@ -16,14 +16,14 @@ class CspViolationsReportMailer < ActionMailer::Base
   private
 
   def html(notification)
+    reports = notification.domain.reports.for_type(notification.notification_type)
+
     ActionView::Base.new("plugins/csp-reports/app/views").render(
       template: 'email/csp_reports',
       format: :html,
       locals: {
-        reports: notification.domain.reports
-          .for_type(notification.notification_type)
-          .order(id: :desc)
-          .limit(10),
+        reports: reports.order(id: :desc).limit(10),
+        graph_url: graph_url(reports, notification.notification_type),
         notification_type: notification.notification_type.titleize,
         username: notification.user.username,
         domain_name: notification.domain.name,
@@ -31,5 +31,11 @@ class CspViolationsReportMailer < ActionMailer::Base
         report_url: "#{Discourse.base_url}/csp-reports/domains/#{notification.domain.id}"
       }
     )
+  end
+
+  def graph_url(reports, notification_type)
+    graph = CspReports::Graph.new(reports, notification_type)
+    graph.draw
+    graph.url
   end
 end
