@@ -24,7 +24,7 @@ module CspReports
     end
 
     def url
-      @url ||= "http://localhost:3000/#{filename}"
+      @url ||= "#{Discourse.base_url}/#{filename}"
     end
 
     private
