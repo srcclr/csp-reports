@@ -11,7 +11,7 @@ module CspReports
       graph.hide_legend = true
 
       if @reports.any?
-        data_hash.each_with_index.map do |h, index|
+        data_hash.map.with_index do |h, index|
           graph.labels[index] = h.first
         end
 
