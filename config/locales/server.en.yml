@@ -10,10 +10,3 @@ en:
       Thanks.
   csp_violations_report:
     subject_template: "%{notification_type} CSP Violations Report"
-    text_body_template: |
-      Hi %{username},
-      <br>
-      This is a %{notification_type} CSP violations report for %{domain_name} (<a href="%{domain_url}">%{domain_url}</a>).
-      Check out full <a href="%{report_url}">report</a>.
-      <br>
-      Thanks.

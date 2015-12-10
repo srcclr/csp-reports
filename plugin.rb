@@ -2,6 +2,9 @@
 # about: CSP Violations Reporter
 # version: 0.0.1
 
+gem("rmagick", "2.15.4")
+gem("gruff", "0.6.0")
+
 require(File.expand_path("../lib/csp_reports", __FILE__))
 
 register_asset("stylesheets/csp_reports/csp-reports.css.scss")
