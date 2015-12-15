@@ -70,6 +70,12 @@ export default Ember.Controller.extend({
       }).catch(popupAjaxError);
     },
 
+    setNotificationType(type) {
+      this.get("model").setNotificationType(type).then(() => {
+        this.get("model").set("email_notification.notification_type", type);
+      }).catch(popupAjaxError);
+    },
+
     addViewer() {
       this.get("model").addViewer(this.get("selectedViewer")).then(() => {
         this.set("selectedViewer", this.get("model.candidateViewers.0"));

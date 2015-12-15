@@ -5,6 +5,9 @@ module CspReports
     has_many :reports, foreign_key: "csp_reports_domain_id", dependent: :destroy
     has_many :shared_domains, foreign_key: "csp_reports_domain_id", dependent: :destroy
     has_many :viewers, through: :shared_domains, source: :user
+    has_many :email_notifications, foreign_key: "csp_reports_domain_id"
+
+    delegate :username, to: :user
 
     scope :with_url, -> (url) { where("url SIMILAR TO ?", "#{url}/?") }
 

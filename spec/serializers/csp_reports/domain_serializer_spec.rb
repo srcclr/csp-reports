@@ -2,7 +2,13 @@ require "rails_helper"
 
 module CspReports
   describe DomainSerializer do
-    let(:domain) { FactoryGirl.create(:domain) }
+    let(:domain) { FactoryGirl.create(:domain, user: user) }
+    let(:user) { FactoryGirl.create(:user) }
+    let(:controller) { double(:controller, current_user: user) }
+
+    before do
+      allow_any_instance_of(described_class).to receive(:scope).and_return(controller)
+    end
 
     subject(:serializer) { described_class.new(domain).as_json }
 

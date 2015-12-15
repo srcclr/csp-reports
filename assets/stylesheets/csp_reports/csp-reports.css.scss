@@ -23,7 +23,7 @@
   }
 }
 
-.table-title{
+.table-title {
   margin-bottom: 10px;
   font-size: 20px;
 }
@@ -41,17 +41,44 @@
   margin-bottom: 50px;
 }
 
-.report-table {
-  tr:nth-child(2n) {
-    background: #e2e3e4;
+.domains-list-table {
+  thead {
+    margin-bottom: 0;
+    border-bottom: 2px solid #0082ba;
+    text-align: left;
+    line-height: 30px;
+    font-weight: bold;
   }
 
-  tr:nth-child(2n+1) {
+  tr {
+    border-bottom: 1px solid #c0ddec;
+  }
+
+  td {
+    padding: 5px;
+  }
+}
+
+.report-table {
+  table-layout: fixed;
+
+  thead {
     background: #b2b2b2;
   }
 
   th {
+    border-bottom: 0;
     text-align: left;
+  }
+
+  tbody {
+    &:nth-child(odd) {
+      background: #b2b2b2;
+    }
+
+    &:nth-child(even) {
+      background: #e2e3e4;
+    }
   }
 }
 

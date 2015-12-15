@@ -5,10 +5,13 @@ module CspReports
     let!(:user) { FactoryGirl.create(:user, report_uri_hash: SecureRandom.uuid) }
     let!(:domain) { FactoryGirl.create(:domain, user: user) }
 
+    let(:controller) { double(:controller, current_user: user) }
+
     subject(:serializer) { described_class.new(user).as_json }
 
     before do
       allow_any_instance_of(described_class).to receive(:options).and_return(host: "example.com")
+      allow_any_instance_of(described_class).to receive(:scope).and_return(controller)
     end
 
     it "provides users report-uri link" do
