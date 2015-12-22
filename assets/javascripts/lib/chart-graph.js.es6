@@ -10,6 +10,21 @@ function ChartGraph(canvas, options) {
   this.scaleFontSize = 12;
   this.scaleFontFamily = 'Roboto, Arial, sans-serif';
   this.scaleFontColor = "#3d3d3d";
+  this.xAxisStep = axisStep(this.maxCount(), 10);
+  this.yAxisStep = axisStep(this.reports.length, 20);
+}
+
+function isInteger(number) {
+  return (number ^ 0) === number;
+}
+
+function axisStep(allCount, maxElements) {
+  let step = parseInt(allCount / maxElements);
+  if (step === 0) {
+    return 1;
+  }
+
+  return step;
 }
 
 ChartGraph.prototype.extendReports = function(reports) {
@@ -61,10 +76,12 @@ ChartGraph.prototype.drawAxis = function(ctx) {
   ctx.lineTo(this.xOffset, this.canvas.height - this.yOffset);
 
   for (let i = 0; i < this.maxCount() + 1; i++) {
-    ctx.moveTo(this.xOffset, this.canvas.height - this.yOffset - this.countStep * i);
-    ctx.font = `${this.scaleFontSize}px ${this.scaleFontFamily}`;
-    ctx.fillText(i, 0, this.canvas.height - this.yOffset - this.countStep * i + this.scaleFontSize / 2);
-    ctx.lineTo(this.canvas.width - this.xOffset, this.canvas.height - this.yOffset - this.countStep * i);
+    if (isInteger(i / this.xAxisStep)) {
+      ctx.moveTo(this.xOffset, this.canvas.height - this.yOffset - this.countStep * i);
+      ctx.font = `${this.scaleFontSize}px ${this.scaleFontFamily}`;
+      ctx.fillText(i, 0, this.canvas.height - this.yOffset - this.countStep * i + this.scaleFontSize / 2);
+      ctx.lineTo(this.canvas.width - this.xOffset, this.canvas.height - this.yOffset - this.countStep * i);
+    }
   }
 
   ctx.strokeStyle = "#3d3d3d";
@@ -111,14 +128,16 @@ ChartGraph.prototype.drawDates = function(ctx) {
   ctx.beginPath();
 
   this.reports.forEach((report, index) => {
-    let date = moment(report[0]).format("MMM D");
+    if (isInteger(index / this.yAxisStep)) {
+      let date = moment(report[0]).format("MMM D");
 
-    this.drawText(
-      ctx,
-      this.dateStep * index + this.xOffset,
-      this.canvas.height - this.yOffset * 0.75,
-      date
-    );
+      this.drawText(
+        ctx,
+        this.dateStep * index + this.xOffset,
+        this.canvas.height - this.yOffset * 0.75,
+        date
+      );
+    }
   });
 };
 
