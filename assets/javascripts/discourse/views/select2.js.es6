@@ -1,4 +1,9 @@
 export default Ember.Select.reopen({
+  disabled: Em.computed.equal('content.length', 0),
+
+  selectedDidChange: Em.observer('selection.@each', function() {
+    this.$().select2('val', this.$().val());
+  }),
 
   didInsertElement: function() {
     Ember.run.scheduleOnce('afterRender', this, 'processChildElements');
@@ -16,9 +21,5 @@ export default Ember.Select.reopen({
 
   willDestroyElement: function () {
     this.$().select2('destroy');
-  },
-
-  selectedDidChange: function() {
-    this.$().select2('val', this.$().val());
-  }.observes('selection.@each')
+  }
 });
