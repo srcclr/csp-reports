@@ -2,7 +2,7 @@ function ChartGraph(canvas, options) {
   this.options = options;
   this.context = canvas.getContext('2d');
   this.canvas = canvas;
-  this.reports = options.reports || [];
+  this.reports = this.extendReports(options.reports || []);
   this.xOffset = 30;
   this.yOffset = 60;
   this.dateStep = (canvas.width - this.xOffset * 2) / (this.reports.length);
@@ -11,6 +11,25 @@ function ChartGraph(canvas, options) {
   this.scaleFontFamily = 'Roboto, Arial, sans-serif';
   this.scaleFontColor = "#3d3d3d";
 }
+
+ChartGraph.prototype.extendReports = function(reports) {
+  let result = [];
+
+  for (let i = 0; i < reports.length - 1; i++) {
+    let zeroDaysCount = (moment(reports[i + 1][0]).diff(moment(reports[i][0])) / 86400000) - 1;
+    result.push(reports[i]);
+    for(let j = 1; j <= zeroDaysCount; j++) {
+      let date = moment(reports[i][0]).add(j, "days").format("YYYY-MM-DD");
+      result.push([date, 0]);
+    }
+  }
+
+  if (reports.length > 0) {
+    result.push(reports[reports.length - 1]);
+  }
+
+  return result;
+};
 
 ChartGraph.prototype.maxCount = function() {
   let max = -1;
