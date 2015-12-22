@@ -13,6 +13,7 @@ spec/dummy/tmp/
 spec/dummy/.sass-cache
 /tmp/
 log/*.log
+/gems/*
 
 ## Specific to RubyMotion:
 .dat*

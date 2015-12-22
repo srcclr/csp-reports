@@ -57,7 +57,7 @@ module CspReports
     end
 
     def reports
-      CspReports::Report.where(csp_reports_domain_id: domain.id, created_at: filter_range) if filter_range
+      CspReports::Report.where(csp_reports_domain_id: domain.id, created_at: filter_range).recent if filter_range
     end
 
     def filter_range
