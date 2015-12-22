@@ -92,11 +92,13 @@ ChartGraph.prototype.drawDates = function(ctx) {
   ctx.beginPath();
 
   this.reports.forEach((report, index) => {
+    let date = moment(report[0]).format("MMM D");
+
     this.drawText(
       ctx,
       this.dateStep * index + this.xOffset,
       this.canvas.height - this.yOffset * 0.75,
-      report[0]
+      date
     );
   });
 };
