@@ -34,7 +34,7 @@ class CspViolationsReportMailer < ActionMailer::Base
   end
 
   def graph_url(reports, notification_type)
-    graph = CspReports::Graph.new(ReportsData.new(reports, notification_type).data)
+    graph = CspReports::Graph.new(CspReports::ReportsData.new(reports, notification_type).data)
     graph.draw
     graph.url
   end
