@@ -1,8 +1,9 @@
 module CspReports
   class Graph
-    def initialize(reports, type)
+    attr_reader :reports
+
+    def initialize(reports)
       @reports = reports
-      @type = type
     end
 
     def draw
@@ -10,14 +11,14 @@ module CspReports
       graph.title = "CSP Violations Graph"
       graph.hide_legend = true
 
-      if @reports.any?
-        data_hash.map.with_index do |h, index|
+      if reports.any?
+        reports.each_with_index do |h, index|
           graph.labels[index] = h.first
         end
 
-        graph.dataxy(:violations, graph.labels.keys, data_hash.values, "#00afd7")
+        graph.dataxy(:violations, graph.labels.keys, reports.values, "#00afd7")
         graph.minimum_value = 0
-        graph.maximum_value = data_hash.values.max + 1
+        graph.maximum_value = reports.values.max + 1
       end
 
       graph.write(filepath)
@@ -28,18 +29,6 @@ module CspReports
     end
 
     private
-
-    def data_hash
-      @data_hash ||= @reports.group(group_expression).order(group_expression).count
-    end
-
-    def group_expression
-      if @type == "daily"
-        "TO_CHAR(created_at, 'HH:00')"
-      else
-        "TO_CHAR(created_at, 'YYYY-MM-DD')"
-      end
-    end
 
     def filename
       @filename ||= "images/csp_reports/#{SecureRandom.uuid}.png"
