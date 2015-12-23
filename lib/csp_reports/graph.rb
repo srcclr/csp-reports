@@ -19,9 +19,10 @@ module CspReports
         graph.dataxy(:violations, graph.labels.keys, reports.values, "#00afd7")
         graph.minimum_value = 0
         graph.maximum_value = reports.values.max + 1
-        graph.bottom_margin = 80
+        graph.bottom_margin = 60
         graph.right_margin = 40
         graph.left_margin = 40
+        graph.marker_font_size = 13
       end
 
       graph.write(filepath)
