@@ -31,6 +31,7 @@ Domain.reopenClass({
     return this.create({
       id: json.id,
       name: json.name,
+      owner: json.username,
       url: json.url,
       isOwn: json.own_domain,
       reports: _.map(json.reports, (report) => { return Report.createFromJson(report); }),

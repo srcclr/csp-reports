@@ -1,64 +1,37 @@
-<div class="container mb">
+<div class="csp-reports container mb">
   <h3 class="mb">CSP Reports</h3>
 
-  <div class="mb">
-    <label class="inline-block">Your report-uri URL:</label>
-    {{textfield-readonly value=model.reportUri class="control--text inline-block w--55 mb- text--center"}}
-  </div>
+  <section class="new-domain mb+">
+    <div class="mb-">
+      <label class="inline-block">Your report-uri URL:</label>
+      {{textfield-readonly value=model.reportUri class="control--text inline-block w--55 mb- text--center"}}
+    </div>
 
-  <div class="mb">
-    {{#if addMode}}
-      {{partial "add-domain-form"}}
-    {{else}}
-      {{d-button action="addDomain" icon="plus" label="csp_reports.add_domain" class="btn--primary"}}
-    {{/if}}
-  </div>
+    <div class="mb">
+      {{#if addMode}}
+        {{partial "add-domain-form"}}
+      {{else}}
+        {{d-button action="addDomain" icon="plus" label="csp_reports.add_domain" class="btn--primary"}}
+      {{/if}}
+    </div>
+  </section>
 
-  <table class="domains-list-table mb">
-    <thead>
-      <tr>
-        <th class="w--25">Domain Name</th>
-        <th class="w--45">Domain URL</th>
-        <th class="w--25">Notifications</th>
-        <th class="w--5"></th>
-      </tr>
-    </thead>
+  <section class="my-domains mb+">
+    <h4>My domains</h4>
 
-    {{#each domain in model.domains itemController="domain"}}
-      <tr>
-        <td>
-          {{#link-to 'domain' domain.model.id}}{{domain.model.name}}{{/link-to}}
-        </td>
-        <td>
-          <a href="{{domain.model.url}}" target="_blank">{{domain.model.url}}</a>
-        </td>
-        <td>
-          <button {{action "setNotificationType" "never"}} {{bind-attr class=":btn--xs domain.model.isNever:btn--default:btn"}}>Never</button>
-          <button {{action "setNotificationType" "daily"}} {{bind-attr class=":btn--xs domain.model.isDaily:btn--default:btn"}}>Daily</button>
-          <button {{action "setNotificationType" "weekly"}} {{bind-attr class=":btn--xs domain.model.isWeekly:btn--default:btn"}}>Weekly</button>
-          <button {{action "setNotificationType" "monthly"}} {{bind-attr class=":btn--xs domain.model.isMonthly:btn--default:btn"}}>Monthly</button>
-        </td>
-        <td>
-          {{d-button action="destroy" icon="trash-o"}}
-        </td>
-      </tr>
-    {{/each}}
-  </table>
-
-  {{#if model.friend_domains}}
     <table class="domains-list-table mb">
       <thead>
         <tr>
-        <th class="w--25">Shared Domain Name</th>
-        <th class="w--45">Domain URL</th>
-        <th class="w--25">Notifications</th>
-        <th class="w--5"></th>
+          <th class="w--25 pl0">Domain Name</th>
+          <th class="w--30">Domain URL</th>
+          <th class="w--25">Notifications</th>
+          <th class="w--5"></th>
         </tr>
       </thead>
 
-      {{#each domain in model.friend_domains itemController="domain"}}
+      {{#each domain in model.domains itemController="domain"}}
         <tr>
-          <td>
+          <td class="pl0">
             {{#link-to 'domain' domain.model.id}}{{domain.model.name}}{{/link-to}}
           </td>
           <td>
@@ -70,9 +43,50 @@
             <button {{action "setNotificationType" "weekly"}} {{bind-attr class=":btn--xs domain.model.isWeekly:btn--default:btn"}}>Weekly</button>
             <button {{action "setNotificationType" "monthly"}} {{bind-attr class=":btn--xs domain.model.isMonthly:btn--default:btn"}}>Monthly</button>
           </td>
-          <td/>
+          <td>
+            {{d-button action="destroy" icon="trash-o"}}
+          </td>
         </tr>
       {{/each}}
     </table>
-  {{/if}}
+  </section>
+
+  <section class="shared-domains mb+">
+    <h4>Shared with me</h4>
+
+    {{#if model.friend_domains}}
+      <table class="domains-list-table w--100 mb">
+        <thead>
+          <tr>
+            <th class="w--25 pl0">Shared Domain Name</th>
+            <th class="w--25">Domain URL</th>
+            <th class="w--20">Domain Owner</th>
+            <th class="w--25">Notifications</th>
+            <th class="w--5"></th>
+          </tr>
+        </thead>
+
+        {{#each domain in model.friend_domains itemController="domain"}}
+          <tr>
+            <td class="pl0">
+              {{#link-to 'domain' domain.model.id}}{{domain.model.name}}{{/link-to}}
+            </td>
+            <td>
+              <a href="{{domain.model.url}}" target="_blank">{{domain.model.url}}</a>
+            </td>
+            <td>
+              {{#link-to "user" domain.model.username}}{{domain.model.username}}{{/link-to}}
+            </td>
+            <td>
+              <button {{action "setNotificationType" "never"}} {{bind-attr class=":btn--xs domain.model.isNever:btn--default:btn"}}>Never</button>
+              <button {{action "setNotificationType" "daily"}} {{bind-attr class=":btn--xs domain.model.isDaily:btn--default:btn"}}>Daily</button>
+              <button {{action "setNotificationType" "weekly"}} {{bind-attr class=":btn--xs domain.model.isWeekly:btn--default:btn"}}>Weekly</button>
+              <button {{action "setNotificationType" "monthly"}} {{bind-attr class=":btn--xs domain.model.isMonthly:btn--default:btn"}}>Monthly</button>
+            </td>
+            <td/>
+          </tr>
+        {{/each}}
+      </table>
+    {{/if}}
+  </section>
 </div>

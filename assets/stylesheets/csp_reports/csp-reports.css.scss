@@ -1,3 +1,10 @@
+.csp-reports {
+  h4 {
+    margin-bottom: 10px;
+    font-size: 22px;
+  }
+}
+
 .domain-form {
   .fa {
     vertical-align: baseline;
@@ -42,6 +49,8 @@
 }
 
 .domains-list-table {
+  width: auto;
+
   thead {
     margin-bottom: 0;
     border-bottom: 2px solid #0082ba;
