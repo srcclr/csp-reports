@@ -1,6 +1,6 @@
 module CspReports
   class DomainSerializer < ActiveModel::Serializer
-    attributes :id, :name, :url, :email_notification
+    attributes :id, :name, :url, :email_notification, :username
     delegate :current_user, to: :scope
 
     def email_notification
