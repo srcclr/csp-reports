@@ -13,7 +13,7 @@ module CspReports
     end
 
     def reports
-      options[:reports] || object.reports
+      options[:reports] || object.reports.recent
     end
   end
 end
