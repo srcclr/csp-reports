@@ -1,10 +1,10 @@
 en:
   shared_domain_mailer:
-    subject_template: "New domain was shared with you"
+    subject_template: "New site was shared with you"
     text_body_template: |
       Hi %{username},
       <br>
-      User %{domain_username} has shared a new domain with you: %{domain_link}.
+      User %{domain_username} has shared a new site with you: %{domain_link}.
       Click the link to see the latest vulnerability reports for %{domain_url}.
       <br>
       Thanks.
