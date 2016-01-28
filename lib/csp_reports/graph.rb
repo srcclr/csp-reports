@@ -17,6 +17,7 @@ module CspReports
         end
 
         graph.dataxy(:violations, graph.labels.keys, reports.values, "#00afd7")
+        graph.y_axis_increment = reports.values.max.fdiv(10).floor
         graph.minimum_value = 0
         graph.maximum_value = reports.values.max + 1
         graph.bottom_margin = 60
