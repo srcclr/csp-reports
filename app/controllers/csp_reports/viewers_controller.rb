@@ -7,6 +7,17 @@ module CspReports
 
     respond_to :html, :json
 
+    def index
+      respond_to do |format|
+        format.html do
+          store_preloaded("viewers", MultiJson.dump(viewers_as_json))
+          render "default/empty"
+        end
+
+        format.json { render json: viewers_as_json }
+      end
+    end
+
     def create
       shared_domain = domain.shared_domains.create(user_id: params[:user_id])
       Jobs.enqueue(:shared_domain, user_id: params[:user_id], domain_id: domain.id)
@@ -30,6 +41,10 @@ module CspReports
 
     def shared_domain
       @shared_domain ||= domain.shared_domains.find_by_user_id(params[:id])
+    end
+
+    def viewers_as_json
+      serialize_data(domain, DomainViewersSerializer, root: false)
     end
   end
 end

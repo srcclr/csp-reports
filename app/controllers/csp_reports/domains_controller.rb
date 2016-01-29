@@ -56,14 +56,6 @@ module CspReports
       @domain ||= current_user.domains.find_by_id(params[:id]) || current_user.friend_domains.find_by_id(params[:id])
     end
 
-    def reports
-      CspReports::Report.where(csp_reports_domain_id: domain.id, created_at: filter_range).recent if filter_range
-    end
-
-    def filter_range
-      Range.new(params[:from], params[:to]) if [params[:from], params[:to]].all?
-    end
-
     def domain_params
       params.require(:domain).permit(:name, :url)
     end
@@ -71,9 +63,8 @@ module CspReports
     def domain_as_json
       serialize_data(
         domain,
-        DomainWithReportsSerializer,
-        root: false,
-        reports: reports
+        DomainSerializer,
+        root: false
       )
     end
 

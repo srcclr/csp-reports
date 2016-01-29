@@ -5,53 +5,29 @@
   {{/link-to}}
 
   <h3 class="site-name">{{model.name}} <span class="nav-back">({{model.url}})</span></h3>
-  <h4 class="table-title">CSP Violations Report</h4>
-
-  <div class="table-filters">
-    <button {{action "filter" "all"}} {{bind-attr class=":btn isAll:btn--primary"}}>{{i18n "domain.filter.all"}}</button>
-    <button {{action "filter" "day"}} {{bind-attr class=":btn isToday:btn--primary"}}>{{i18n "domain.filter.today"}}</button>
-    <button {{action "filter" "week"}} {{bind-attr class=":btn isWeek:btn--primary"}}>{{i18n "domain.filter.week"}}</button>
-    <button {{action "filter" "month"}} {{bind-attr class=":btn isMonth:btn--primary"}}>{{i18n "domain.filter.month"}}</button>
-    <button {{action "filter" "quarter"}} {{bind-attr class=":btn isQuarter:btn--primary"}}>{{i18n "domain.filter.quarter"}}</button>
-    <button {{action "filter" "year"}} {{bind-attr class=":btn isYear:btn--primary"}}>{{i18n "domain.filter.year"}}</button>
-  </div>
 
   <ul class="nav nav--tabs report-tabs">
-    <li {{bind-attr class=":navbar__item isTableView:active"}}{{action "changeType" "table"}}>
-      <a href="" class="navbar__link">
+    {{#link-to "domain.reports-table" class="navbar__item" tagName="li"}}
+      <a href="#" class="navbar__link">
         <i class="sci sci__view-list"></i>
         Table
       </a>
-    </li>
-    <li {{bind-attr class=":navbar__item isGraphView:active"}} {{action "changeType" "graph"}}>
-      <a href="" class="navbar__link">
+    {{/link-to}}
+    {{#link-to "domain.reports-graph" class="navbar__item" tagName="li"}}
+      <a class="navbar__link">
         <i class="sci sci__view--graph"></i>
         Graph
       </a>
-    </li>
-    <li {{bind-attr class=":navbar__item isViewersView:active"}} {{action "changeType" "viewers"}}>
-      <a href="" class="navbar__link">
+    {{/link-to}}
+    {{#link-to "domain.viewers" class="navbar__item" tagName="li"}}
+      <a class="navbar__link">
         <i class="sci sci__view--list"></i>
         Viewers
       </a>
-    </li>
+    {{/link-to}}
   </ul>
 
   <div class="report">
-    {{#conditional-loading-spinner condition=loading}}
-      {{#if isViewersView}}
-        {{partial "domain/viewers"}}
-      {{else}}
-        {{#if model.reports}}
-          {{#if isTableView}}
-            {{partial "domain/reports"}}
-          {{else}}
-            {{reports-graph model=groupedReports}}
-          {{/if}}
-        {{else}}
-          <p>No results</p>
-        {{/if}}
-      {{/if}}
-    {{/conditional-loading-spinner}}
+    {{ outlet }}
   </div>
 </div>

@@ -10,6 +10,10 @@ Viewer.reopenClass({
       id: json.id,
       username: json.username
     })
+  },
+
+  createList(json) {
+    return _.map(json, (viewer) => { return this.createFromJson(viewer); })
   }
 });
 
