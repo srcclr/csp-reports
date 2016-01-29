@@ -6,8 +6,6 @@ module CspReports
     end
 
     def data
-      return data_hash if data_hash.size < 2
-
       empty_hash.merge(data_hash)
     end
 
@@ -34,11 +32,13 @@ module CspReports
     end
 
     def reports_start
-      DateTime.parse(data_hash.keys.first)
+      dt = DateTime.parse(data_hash.keys.first)
+      @type == "daily" ? dt.beginning_of_week : dt.beginning_of_month
     end
 
     def reports_end
-      DateTime.parse(data_hash.keys.last)
+      dt = DateTime.parse(data_hash.keys.last)
+      @type == "daily" ? dt.end_of_week : dt.end_of_month
     end
 
     def group_expression
