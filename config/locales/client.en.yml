@@ -1,7 +1,7 @@
 en:
   js:
     csp_reports:
-      add_domain: "Add new domain"
+      add_domain: "Add new site"
       show: "Show"
       save: "Save"
       cancel: "Cancel"
