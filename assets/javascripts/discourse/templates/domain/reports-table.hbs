@@ -1,0 +1,40 @@
+<div class="table-filters">
+  <button {{action "filter" "day"}} {{bind-attr class=":btn isToday:btn--primary"}}>{{i18n "domain.filter.today"}}</button>
+  <button {{action "filter" "week"}} {{bind-attr class=":btn isWeek:btn--primary"}}>{{i18n "domain.filter.week"}}</button>
+  <button {{action "filter" "month"}} {{bind-attr class=":btn isMonth:btn--primary"}}>{{i18n "domain.filter.month"}}</button>
+  <button {{action "filter" "quarter"}} {{bind-attr class=":btn isQuarter:btn--primary"}}>{{i18n "domain.filter.quarter"}}</button>
+  <button {{action "filter" "year"}} {{bind-attr class=":btn isYear:btn--primary"}}>{{i18n "domain.filter.year"}}</button>
+  <button {{action "filter" "all"}} {{bind-attr class=":btn isAll:btn--primary"}}>{{i18n "domain.filter.all"}}</button>
+</div>
+
+{{#conditional-loading-spinner condition=loading}}
+  {{#if model}}
+    <table class="report-table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Document URI</th>
+          <th>Referrer</th>
+          <th>Violated directive</th>
+          <th>Blocked URI</th>
+        </tr>
+      </thead>
+      {{#each report in model itemView="report-view"}}
+        <tr>
+          <td>{{formatted-date report.createdAt "DD/MM/YYYY hh:mm A"}}</td>
+          <td class="uri-col">{{report.documentUri}}</td>
+          <td>{{report.referrer}}</td>
+          <td>{{report.violatedDirective}}</td>
+          <td class="uri-col">{{report.blockedUri}}</td>
+        </tr>
+        {{#if view.showExpanded}}
+          <tr>
+            <td colspan="5"><b>Original Policy:</b> {{report.originalPolicy}}</td>
+          </tr>
+        {{/if}}
+      {{/each}}
+    </table>
+  {{else}}
+    <p>No results</p>
+  {{/if}}
+{{/conditional-loading-spinner}}

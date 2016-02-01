@@ -10,6 +10,10 @@ Report.reopenClass({
       originalPolicy: json.result["original-policy"],
       blockedUri: json.result["blocked-uri"],
     })
+  },
+
+  createList(json) {
+    return _.map(json.reports, (report) => { return this.createFromJson(report); })
   }
 });
 

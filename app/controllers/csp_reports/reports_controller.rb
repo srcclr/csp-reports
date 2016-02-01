@@ -2,10 +2,21 @@ module CspReports
   class ReportsController < ::ApplicationController
     skip_before_action :check_xhr, :redirect_to_login_if_required, :verify_authenticity_token
 
-    before_action :find_user!, :verify_domain!
+    before_action :find_user!, :verify_domain!, only: :create
 
     rescue_from ActiveRecord::RecordNotFound do
       head :not_found
+    end
+
+    def index
+      respond_to do |format|
+        format.html do
+          store_preloaded("reports", MultiJson.dump(reports_as_json))
+          render "default/empty"
+        end
+
+        format.json { render json: reports_as_json }
+      end
     end
 
     def create
@@ -33,6 +44,14 @@ module CspReports
 
     def parsed_report
       JSON.parse(request.raw_post)
+    end
+
+    def reports
+      ReportsQueryObject.new(params[:domain_id], params.slice(:all, :from, :to)).all
+    end
+
+    def reports_as_json
+      serialize_data(reports, ReportSerializer, root: "reports")
     end
   end
 end
