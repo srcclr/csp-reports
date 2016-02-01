@@ -12,7 +12,7 @@ export default Discourse.Route.extend({
   },
 
   setupController(controller, model) {
-    controller.set("model", model);
+    controller.setProperties({ model: model, filter: "day" });
     this.controllerFor("application").set("showFooter", true);
   }
 })

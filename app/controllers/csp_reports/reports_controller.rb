@@ -47,17 +47,11 @@ module CspReports
     end
 
     def reports
-      reports = Report.where(csp_reports_domain_id: params[:domain_id]).recent
-      reports = reports.where(created_at: filter_range) if filter_range
-      reports
+      ReportsQueryObject.new(params[:domain_id], params.slice(:all, :from, :to)).all
     end
 
     def reports_as_json
-      serialize_data(reports, ReportSerializer)
-    end
-
-    def filter_range
-      Range.new(params[:from], params[:to]) if [params[:from], params[:to]].all?
+      serialize_data(reports, ReportSerializer, root: "reports")
     end
   end
 end

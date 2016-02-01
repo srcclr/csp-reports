@@ -1,10 +1,10 @@
 <div class="table-filters">
-  <button {{action "filter" "all"}} {{bind-attr class=":btn isAll:btn--primary"}}>{{i18n "domain.filter.all"}}</button>
   <button {{action "filter" "day"}} {{bind-attr class=":btn isToday:btn--primary"}}>{{i18n "domain.filter.today"}}</button>
   <button {{action "filter" "week"}} {{bind-attr class=":btn isWeek:btn--primary"}}>{{i18n "domain.filter.week"}}</button>
   <button {{action "filter" "month"}} {{bind-attr class=":btn isMonth:btn--primary"}}>{{i18n "domain.filter.month"}}</button>
   <button {{action "filter" "quarter"}} {{bind-attr class=":btn isQuarter:btn--primary"}}>{{i18n "domain.filter.quarter"}}</button>
   <button {{action "filter" "year"}} {{bind-attr class=":btn isYear:btn--primary"}}>{{i18n "domain.filter.year"}}</button>
+  <button {{action "filter" "all"}} {{bind-attr class=":btn isAll:btn--primary"}}>{{i18n "domain.filter.all"}}</button>
 </div>
 
 {{#conditional-loading-spinner condition=loading}}

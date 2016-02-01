@@ -6,7 +6,7 @@ const dateFormat = "YYYY-MM-DDTHH:mm:ss";
 export default Ember.Controller.extend({
   needs: ["domain"],
 
-  filter: "all",
+  filter: "day",
   filterQuery: "",
 
   isAll: Em.computed.equal("filter", "all"),
@@ -31,15 +31,18 @@ export default Ember.Controller.extend({
     }).catch(popupAjaxError);
   }),
 
+  fromDate: Em.computed("filter", function() {
+    return moment.utc().subtract(1, this.get("filter")).format(dateFormat);
+  }),
+
+  toDate: Em.computed("filter", function() {
+    return moment.utc().endOf("day").format(dateFormat);
+  }),
+
   filterQuery: Em.computed("filter", function() {
-    let filter = this.get("filter");
+    if (this.get("filter") == "all") { return "?all=1"; }
 
-    if (filter == "all") { return ""; }
-
-    let from = moment.utc().startOf(filter).format(dateFormat),
-        to = moment.utc().endOf(filter).format(dateFormat);
-
-    return "?from=" + from + "&to=" + to;
+    return "?from=" + this.get("fromDate") + "&to=" + this.get("toDate");
   }),
 
   actions: {
