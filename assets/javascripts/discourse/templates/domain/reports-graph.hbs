@@ -8,7 +8,7 @@
 
 {{#conditional-loading-spinner condition=loading}}
   {{#if model}}
-    {{reports-graph model=groupedReports}}
+    {{reports-graph model=groupedReports filterType=filter}}
   {{else}}
     <p>No results</p>
   {{/if}}

@@ -8,6 +8,6 @@ export default Ember.Component.extend({
   height: 480,
 
   draw: function() {
-    new ChartGraph(this.get("element"), { reports: this.model }).draw();
+    new ChartGraph(this.get("element"), { reports: this.model, filterType: this.filterType }).draw();
   }.on("didInsertElement"),
 })
