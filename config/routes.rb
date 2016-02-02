@@ -5,7 +5,7 @@ CspReports::Engine.routes.draw do
     resource :email_notifications, only: :update
   end
 
-  get "domains/:domain_id/graph", to: "reports#index"
+  get "domains/:domain_id/graph", to: "reports#graph"
 
   root to: "domains#index"
 end

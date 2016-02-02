@@ -24,7 +24,7 @@ export default Ember.Controller.extend({
         query = this.get("filterQuery");
 
     this.set("loading", true);
-    return Discourse.ajax(Discourse.getURL("/csp-reports/domains/" + domainId + "/reports" + query)).then((data) => {
+    return Discourse.ajax(Discourse.getURL("/csp-reports/domains/" + domainId + "/graph" + query)).then((data) => {
       this.set("model", Report.createList(data));
       this.set("loading", false);
     }).catch(popupAjaxError);

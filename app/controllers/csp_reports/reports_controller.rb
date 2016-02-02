@@ -9,13 +9,28 @@ module CspReports
     end
 
     def index
+      serialized = serialize_data(paginated_reports, ReportSerializer, root: "reports", meta: meta)
+
       respond_to do |format|
         format.html do
-          store_preloaded("reports", MultiJson.dump(reports_as_json))
+          store_preloaded("reports", MultiJson.dump(serialized))
           render "default/empty"
         end
 
-        format.json { render json: reports_as_json }
+        format.json { render json: serialized }
+      end
+    end
+
+    def graph
+      serialized = serialize_data(reports, ReportSerializer, root: "reports")
+
+      respond_to do |format|
+        format.html do
+          store_preloaded("reports", MultiJson.dump(serialized))
+          render "default/empty"
+        end
+
+        format.json { render json: serialized }
       end
     end
 
@@ -47,11 +62,27 @@ module CspReports
     end
 
     def reports
-      ReportsQueryObject.new(params[:domain_id], params.slice(:all, :from, :to)).all
+      @reports ||= ReportsQueryObject.new(params[:domain_id], params.slice(:all, :from, :to)).all
     end
 
-    def reports_as_json
-      serialize_data(reports, ReportSerializer, root: "reports")
+    def paginated_reports
+      reports.limit(per_page).offset(page * per_page)
+    end
+
+    def meta
+      {
+        total: reports.count,
+        page: page,
+        per_page: per_page
+      }
+    end
+
+    def page
+      params[:page].to_i
+    end
+
+    def per_page
+      (params[:per_page] || 25).to_i
     end
   end
 end

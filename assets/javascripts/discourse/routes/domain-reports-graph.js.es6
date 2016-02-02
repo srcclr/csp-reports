@@ -5,7 +5,7 @@ export default Discourse.Route.extend({
     let domainId = this.modelFor("domain").get("id");
 
     return PreloadStore.getAndRemove('reports', () => {
-      return Discourse.ajax(Discourse.getURL("/csp-reports/domains/" + domainId + "/reports"));
+      return Discourse.ajax(Discourse.getURL("/csp-reports/domains/" + domainId + "/graph"));
     }).then((data) => {
       return Report.createList(data);
     });
