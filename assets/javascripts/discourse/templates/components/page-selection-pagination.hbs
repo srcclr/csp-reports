@@ -1,13 +1,15 @@
-<div class="pagination">
-  <button {{action "pageClicked" 1}} {{bind-attr class="isFirstPage:hidden"}}>&laquo;</button>
-  <button {{action "prevPage"}} {{bind-attr class="isFirstPage:disabled"}}>&lsaquo;</button>
-  {{#each pageItems as |pageItem|}}
-    {{#if pageItem.current}}
-      <button class="current disabled">{{pageItem.page}}</button>
-    {{else}}
-      <button {{action "pageClicked" pageItem.page}}>{{pageItem.page}}</button>
-    {{/if}}
-  {{/each}}
-  <button {{action "nextPage"}} {{bind-attr class="isLastPage:disabled"}}>&rsaquo;</button>
-  <button {{action "pageClicked" totalPages}} {{bind-attr class="isLastPage:hidden"}}>&raquo;</button>
-</div>
+{{#if hasPages}}
+  <div class="pagination">
+    <button {{action "pageClicked" 1}} {{bind-attr class="isFirstPage:hidden"}}>&laquo;</button>
+    <button {{action "prevPage"}} {{bind-attr class="isFirstPage:disabled"}}>&lsaquo;</button>
+    {{#each pageItems as |pageItem|}}
+      {{#if pageItem.current}}
+        <button class="current disabled">{{pageItem.page}}</button>
+      {{else}}
+        <button {{action "pageClicked" pageItem.page}}>{{pageItem.page}}</button>
+      {{/if}}
+    {{/each}}
+    <button {{action "nextPage"}} {{bind-attr class="isLastPage:disabled"}}>&rsaquo;</button>
+    <button {{action "pageClicked" totalPages}} {{bind-attr class="isLastPage:hidden"}}>&raquo;</button>
+  </div>
+{{/if}}
