@@ -12,10 +12,23 @@ export default Ember.Component.extend({
     return pages;
   }),
 
+  isFirstPage: Em.computed.equal("currentPage", 1),
+  isLastPage: Em.computed("currentPage", function() {
+    return this.get("currentPage") == this.get("totalPages");
+  }),
+
   actions: {
-    pageClicked: function(pageNumber) {
+    pageClicked(pageNumber) {
       this.set("currentPage", pageNumber);
       this.sendAction("action", pageNumber);
+    },
+
+    nextPage() {
+      this.send("pageClicked", this.get("currentPage") + 1);
+    },
+
+    prevPage() {
+      this.send("pageClicked", this.get("currentPage") - 1);
     }
   }
 })
