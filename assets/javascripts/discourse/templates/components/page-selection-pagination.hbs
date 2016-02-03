@@ -1,0 +1,9 @@
+<div class="pagination">
+  {{#each pageItems as |pageItem|}}
+    {{#if pageItem.current}}
+      <button class="current disabled">{{pageItem.page}}</button>
+    {{else}}
+      <button {{action "pageClicked" pageItem.page}}>{{pageItem.page}}</button>
+    {{/if}}
+  {{/each}}
+</div>

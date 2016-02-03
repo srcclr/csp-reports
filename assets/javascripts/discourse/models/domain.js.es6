@@ -1,6 +1,3 @@
-import Report from "./report";
-import Viewer from "./viewer";
-
 let Domain = Discourse.Model.extend({
   isNever: Em.computed.equal("email_notification.notification_type", "never"),
   isDaily: Em.computed.equal("email_notification.notification_type", "daily"),

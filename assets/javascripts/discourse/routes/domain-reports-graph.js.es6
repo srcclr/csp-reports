@@ -1,4 +1,4 @@
-import Report from "../models/report";
+import GraphReport from "../models/graph-report";
 
 export default Discourse.Route.extend({
   model(params) {
@@ -7,7 +7,7 @@ export default Discourse.Route.extend({
     return PreloadStore.getAndRemove('reports', () => {
       return Discourse.ajax(Discourse.getURL("/csp-reports/domains/" + domainId + "/graph"));
     }).then((data) => {
-      return Report.createList(data);
+      return GraphReport.createList(data);
     });
   },
 

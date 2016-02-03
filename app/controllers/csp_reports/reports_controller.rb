@@ -66,23 +66,23 @@ module CspReports
     end
 
     def paginated_reports
-      reports.limit(per_page).offset(page * per_page)
+      reports.limit(per).offset((page - 1) * per)
     end
 
     def meta
       {
         total: reports.count,
         page: page,
-        per_page: per_page
+        per: per
       }
     end
 
     def page
-      params[:page].to_i
+      (params[:page] || 1).to_i
     end
 
-    def per_page
-      (params[:per_page] || 25).to_i
+    def per
+      (params[:per] || 25).to_i
     end
   end
 end

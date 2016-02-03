@@ -1,4 +1,4 @@
-import Report from "../models/report"
+import GraphReport from "../models/graph-report"
 import { popupAjaxError } from "discourse/lib/ajax-error";
 
 const dateFormat = "YYYY-MM-DDTHH:mm:ss";
@@ -25,7 +25,7 @@ export default Ember.Controller.extend({
 
     this.set("loading", true);
     return Discourse.ajax(Discourse.getURL("/csp-reports/domains/" + domainId + "/graph" + query)).then((data) => {
-      this.set("model", Report.createList(data));
+      this.set("model", GraphReport.createList(data));
       this.set("loading", false);
     }).catch(popupAjaxError);
   }),
