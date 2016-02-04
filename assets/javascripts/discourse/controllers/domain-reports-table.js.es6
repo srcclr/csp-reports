@@ -1,4 +1,4 @@
-import Report from "../models/report"
+import TableReport from "../models/table-report"
 import { popupAjaxError } from "discourse/lib/ajax-error";
 
 const dateFormat = "YYYY-MM-DDTHH:mm:ss";
@@ -20,13 +20,22 @@ export default Ember.Controller.extend({
     this.get("filterQuery");
   },
 
+  pageSelected: 1,
+  currentPage: Em.computed.alias("model.meta.page"),
+  totalPages: Em.computed("model.meta.@each", function() {
+    let total = this.get("model.meta.total"),
+        per = this.get("model.meta.per");
+
+    return Math.ceil(total / per);
+  }),
+
   filterCollection: Em.observer("filterQuery", function() {
     let domain_id = this.get("controllers.domain.model.id"),
         query = this.get("filterQuery");
 
     this.set("loading", true);
     return Discourse.ajax(Discourse.getURL("/csp-reports/domains/" + domain_id + "/reports" + query)).then((data) => {
-      this.set("model", Report.createList(data));
+      this.set("model", TableReport.createList(data));
       this.set("loading", false);
     }).catch(popupAjaxError);
   }),
@@ -39,15 +48,25 @@ export default Ember.Controller.extend({
     return moment.utc().endOf("day").format(dateFormat);
   }),
 
-  filterQuery: Em.computed("filter", function() {
-    if (this.get("filter") == "all") { return "?all=1"; }
+  filterQuery: Em.computed("filter", "pageSelected", function() {
+    let query = "?page=" + this.get("pageSelected");
 
-    return "?from=" + this.get("fromDate") + "&to=" + this.get("toDate");
+    if (this.get("filter") == "all") {
+      query = query + "&all=1";
+    } else {
+      query = query + "&from=" + this.get("fromDate") + "&to=" + this.get("toDate");
+    }
+
+    return query;
   }),
 
   actions: {
     filter(range) {
-      this.set("filter", range);
+      this.setProperties({ filter: range, pageSelected: 1 });
+    },
+
+    pageClicked(pageNumber) {
+      this.set("pageSelected", pageNumber);
     }
   }
 })

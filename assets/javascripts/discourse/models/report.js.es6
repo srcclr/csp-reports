@@ -13,7 +13,10 @@ Report.reopenClass({
   },
 
   createList(json) {
-    return _.map(json.reports, (report) => { return this.createFromJson(report); })
+    return {
+      reports: _.map(json.reports, (report) => { return this.createFromJson(report); }),
+      meta: json.meta
+    }
   }
 });
 

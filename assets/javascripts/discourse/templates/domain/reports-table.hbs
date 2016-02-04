@@ -8,7 +8,7 @@
 </div>
 
 {{#conditional-loading-spinner condition=loading}}
-  {{#if model}}
+  {{#if model.reports}}
     <table class="report-table">
       <thead>
         <tr>
@@ -19,7 +19,7 @@
           <th>Blocked URI</th>
         </tr>
       </thead>
-      {{#each report in model itemView="report-view"}}
+      {{#each report in model.reports itemView="report-view"}}
         <tr>
           <td>{{formatted-date report.createdAt "DD/MM/YYYY hh:mm A"}}</td>
           <td class="uri-col">{{report.documentUri}}</td>
@@ -34,6 +34,7 @@
         {{/if}}
       {{/each}}
     </table>
+    {{page-selection-pagination currentPage=currentPage totalPages=totalPages action="pageClicked"}}
   {{else}}
     <p>No results</p>
   {{/if}}

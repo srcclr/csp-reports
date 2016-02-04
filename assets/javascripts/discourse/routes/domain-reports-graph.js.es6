@@ -1,13 +1,13 @@
-import Report from "../models/report";
+import GraphReport from "../models/graph-report";
 
 export default Discourse.Route.extend({
   model(params) {
     let domainId = this.modelFor("domain").get("id");
 
     return PreloadStore.getAndRemove('reports', () => {
-      return Discourse.ajax(Discourse.getURL("/csp-reports/domains/" + domainId + "/reports"));
+      return Discourse.ajax(Discourse.getURL("/csp-reports/domains/" + domainId + "/graph"));
     }).then((data) => {
-      return Report.createList(data);
+      return GraphReport.createList(data);
     });
   },
 
