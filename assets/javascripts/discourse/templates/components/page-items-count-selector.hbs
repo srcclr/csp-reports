@@ -1,0 +1,14 @@
+<div>
+  Items per page:
+  <ul>
+    {{#each items as |item|}}
+      <li>
+        {{#if item.current}}
+          <span>{{item.count}}</span>
+        {{else}}
+          <a href="#" {{action "changePerPageItemsCount" item.count}}>{{item.count}}</a>
+        {{/if}}
+      </li>
+    {{/each}}
+  </ul>
+</div>

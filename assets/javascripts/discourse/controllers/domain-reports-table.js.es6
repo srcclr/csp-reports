@@ -9,6 +9,7 @@ export default Ember.Controller.extend({
   filter: "day",
   filterQuery: "",
   sort: "desc",
+  perPage: 25,
 
   isAll: Em.computed.equal("filter", "all"),
   isToday: Em.computed.equal("filter", "day"),
@@ -50,7 +51,7 @@ export default Ember.Controller.extend({
     return moment.utc().endOf("day").format(dateFormat);
   }),
 
-  filterQuery: Em.computed("filter", "pageSelected", "sort", function() {
+  filterQuery: Em.computed("filter", "pageSelected", "sort", "perPage", function() {
     let query = "?page=" + this.get("pageSelected");
 
     if (this.get("filter") == "all") {
@@ -59,7 +60,9 @@ export default Ember.Controller.extend({
       query = query + "&from=" + this.get("fromDate") + "&to=" + this.get("toDate");
     }
 
-    query = query + "&sort=" + this.get("sort")
+    query = query + "&sort=" + this.get("sort");
+    query = query + "&per=" + this.get("perPage");
+
     return query;
   }),
 
@@ -74,6 +77,10 @@ export default Ember.Controller.extend({
 
     pageClicked(pageNumber) {
       this.set("pageSelected", pageNumber);
+    },
+
+    changePerPageItemsCount(count) {
+      this.set("perPage", count);
     }
   }
 })

@@ -43,6 +43,7 @@
       {{/each}}
     </table>
     {{page-selection-pagination currentPage=currentPage totalPages=totalPages action="pageClicked"}}
+    {{page-items-count-selector perPage=perPage action="changePerPageItemsCount"}}
   {{else}}
     <p>No results</p>
   {{/if}}
