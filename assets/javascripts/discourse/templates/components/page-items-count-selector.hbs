@@ -1,0 +1,14 @@
+<div>
+  Items per page:
+  <ul class="list--unstyled inline-block">
+    {{#each items as |item|}}
+      <li class="inline-block">
+        {{#if item.current}}
+          <span class="btn--primary">{{item.count}}</span>
+        {{else}}
+          <a href="#" class="btn" {{action "changePerPageItemsCount" item.count}}>{{item.count}}</a>
+        {{/if}}
+      </li>
+    {{/each}}
+  </ul>
+</div>
