@@ -8,6 +8,7 @@ export default Ember.Controller.extend({
 
   filter: "day",
   filterQuery: "",
+  sort: "desc",
 
   isAll: Em.computed.equal("filter", "all"),
   isToday: Em.computed.equal("filter", "day"),
@@ -15,6 +16,7 @@ export default Ember.Controller.extend({
   isMonth: Em.computed.equal("filter", "month"),
   isQuarter: Em.computed.equal("filter", "quarter"),
   isYear: Em.computed.equal("filter", "year"),
+  isSortAsc: Em.computed.equal("sort", "asc"),
 
   init() {
     this.get("filterQuery");
@@ -48,7 +50,7 @@ export default Ember.Controller.extend({
     return moment.utc().endOf("day").format(dateFormat);
   }),
 
-  filterQuery: Em.computed("filter", "pageSelected", function() {
+  filterQuery: Em.computed("filter", "pageSelected", "sort", function() {
     let query = "?page=" + this.get("pageSelected");
 
     if (this.get("filter") == "all") {
@@ -57,12 +59,17 @@ export default Ember.Controller.extend({
       query = query + "&from=" + this.get("fromDate") + "&to=" + this.get("toDate");
     }
 
+    query = query + "&sort=" + this.get("sort")
     return query;
   }),
 
   actions: {
     filter(range) {
       this.setProperties({ filter: range, pageSelected: 1 });
+    },
+
+    sort(direction) {
+      this.setProperties({ sort: direction });
     },
 
     pageClicked(pageNumber) {

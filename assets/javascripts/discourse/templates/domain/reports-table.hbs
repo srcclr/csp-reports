@@ -12,7 +12,15 @@
     <table class="report-table">
       <thead>
         <tr>
-          <th>Date</th>
+          <th>
+            Date
+            <a href="#" {{bind-attr class="isSortAsc:inline:hidden"}} {{action "sort" "desc"}}>
+              <i class="sci sci__arrow--closed-up mt--"/>
+            </a>
+            <a href="#" {{bind-attr class="isSortAsc:hidden:inline"}} {{action "sort" "asc"}}>
+              <i class="sci sci__arrow--closed-down mb--"/>
+            </a>
+          </th>
           <th>Document URI</th>
           <th>Referrer</th>
           <th>Violated directive</th>

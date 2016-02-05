@@ -9,9 +9,9 @@ module CspReports
     end
 
     def all
-      @reports = Report.where(csp_reports_domain_id: domain_id).recent
+      @reports = Report.where(csp_reports_domain_id: domain_id)
       @reports = @reports.where(created_at: filter_range) unless options[:all]
-
+      @reports = @reports.order(created_at: options[:sort].to_sym) if options[:sort]
       @reports
     end
 

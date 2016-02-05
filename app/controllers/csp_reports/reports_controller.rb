@@ -62,7 +62,7 @@ module CspReports
     end
 
     def reports
-      @reports ||= ReportsQueryObject.new(params[:domain_id], params.slice(:all, :from, :to)).all
+      @reports ||= ReportsQueryObject.new(params[:domain_id], params.slice(:all, :from, :to, :sort)).all
     end
 
     def paginated_reports
