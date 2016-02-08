@@ -1,0 +1,23 @@
+{{#if hasPages}}
+  <ul class="pagination">
+    <li>
+      <a href="#" {{action "pageClicked" 1}} {{bind-attr class="isFirstPage:hidden"}}>&laquo;</a>
+    </li>
+    <li>
+      <a href="#" {{action "prevPage"}} {{bind-attr class="isFirstPage:hidden"}}>&lsaquo;</a>
+    </li>
+
+    {{#each pageItems as |pageItem|}}
+      <li {{bind-attr class="pageItem.current:active"}}>
+        <a href="#" {{action "pageClicked" pageItem.page}}>{{pageItem.page}}</a>
+      </li>
+    {{/each}}
+
+    <li>
+      <a href="#" {{action "nextPage" 1}} {{bind-attr class="isLastPage:hidden"}}>&rsaquo;</a>
+    </li>
+    <li>
+      <a href="#" {{action "pageClicked" totalPages}} {{bind-attr class="isLastPage:hidden"}}>&raquo;</a>
+    </li>
+  </ul>
+{{/if}}

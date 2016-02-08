@@ -1,6 +1,3 @@
-import Report from "./report";
-import Viewer from "./viewer";
-
 let Domain = Discourse.Model.extend({
   isNever: Em.computed.equal("email_notification.notification_type", "never"),
   isDaily: Em.computed.equal("email_notification.notification_type", "daily"),
@@ -19,9 +16,6 @@ let Domain = Discourse.Model.extend({
     return Discourse.ajax("/csp-reports/domains/" + this.id + "/viewers", {
       type: "POST",
       data: { user_id: viewer.id }
-    }).then((res) => {
-      this.get("viewers").pushObject(Viewer.createFromJson(res.viewer));
-      this.get("candidateViewers").removeObject(this.candidateViewers.findProperty("id", res.viewer.id));
     });
   }
 });
@@ -33,10 +27,7 @@ Domain.reopenClass({
       name: json.name,
       owner: json.username,
       url: json.url,
-      isOwn: json.own_domain,
-      reports: _.map(json.reports, (report) => { return Report.createFromJson(report); }),
-      viewers: _.map(json.viewers, (viewer) => { return Viewer.createFromJson(viewer); }),
-      candidateViewers: _.map(json.candidate_viewers, (viewer) => { return Viewer.createFromJson(viewer); })
+      isOwn: json.own_domain
     });
   }
 });

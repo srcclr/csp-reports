@@ -2,7 +2,8 @@ function ChartGraph(canvas, options) {
   this.options = options;
   this.context = canvas.getContext('2d');
   this.canvas = canvas;
-  this.reports = extendReports(options.reports || []);
+  this.reports = options.reports || [];
+  this.dataFormat = dataFormat(options.filterType);
   this.maxCount = maxCount(this.reports);
   this.xOffset = 30;
   this.yOffset = 60;
@@ -28,6 +29,16 @@ function axisStep(allCount, maxElements) {
   return step;
 }
 
+function dataFormat(filterType) {
+  if (filterType == "day") {
+    return "HH:mm";
+  } else if (filterType == "year") {
+    return "MMM YYYY";
+  } else {
+    return "MMM D";
+  }
+}
+
 function maxCount(reports) {
   let max = -1;
 
@@ -39,25 +50,6 @@ function maxCount(reports) {
 
   return max + 1;
 }
-
-function extendReports(reports) {
-  let result = [];
-
-  for (let i = 0; i < reports.length - 1; i++) {
-    let zeroDaysCount = (moment(reports[i + 1][0]).diff(moment(reports[i][0])) / 86400000) - 1;
-    result.push(reports[i]);
-    for(let j = 1; j <= zeroDaysCount; j++) {
-      let date = moment(reports[i][0]).add(j, "days").format("YYYY-MM-DD");
-      result.push([date, 0]);
-    }
-  }
-
-  if (reports.length > 0) {
-    result.push(reports[reports.length - 1]);
-  }
-
-  return result;
-};
 
 ChartGraph.prototype.dotXCoord = function(index) {
   return this.dateStep * index + this.xOffset;
@@ -125,7 +117,7 @@ ChartGraph.prototype.drawDates = function(ctx) {
   ctx.beginPath();
 
   for(let i = 0; i < this.reports.length; i = i + this.yAxisStep) {
-    let date = moment(this.reports[i][0]).format("MMM D");
+    let date = moment(this.reports[i][0]).format(this.dataFormat);
 
     this.drawText(
       ctx,

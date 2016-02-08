@@ -2,8 +2,6 @@ module CspReports
   class Report < ActiveRecord::Base
     belongs_to :domain, foreign_key: "csp_reports_domain_id"
 
-    scope :recent, -> { order(created_at: :asc) }
-
     def self.for_type(type)
       case type
       when "daily" then
